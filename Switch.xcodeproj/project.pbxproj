@@ -10,6 +10,26 @@
 		B7F243831C398E5B00B6E26A /* Switch.h in Headers */ = {isa = PBXBuildFile; fileRef = B7F243821C398E5B00B6E26A /* Switch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7F2438A1C398E5B00B6E26A /* Switch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F2437F1C398E5B00B6E26A /* Switch.framework */; };
 		B7F2438F1C398E5B00B6E26A /* SwitchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F2438E1C398E5B00B6E26A /* SwitchTests.swift */; };
+		B7F2439B1C398F5B00B6E26A /* DarwinBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F243991C398F5B00B6E26A /* DarwinBridge.m */; };
+		B7F2439C1C398F5B00B6E26A /* DarwinBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B7F2439A1C398F5B00B6E26A /* DarwinBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7F243A01C398F7100B6E26A /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F2439E1C398F7100B6E26A /* Signals.swift */; };
+		B7F243A11C398F7100B6E26A /* URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F2439F1C398F7100B6E26A /* URI.swift */; };
+		B7F243A91C398F8200B6E26A /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243A31C398F8200B6E26A /* Socket.swift */; };
+		B7F243AA1C398F8200B6E26A /* ListenerSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243A41C398F8200B6E26A /* ListenerSocket.swift */; };
+		B7F243AB1C398F8200B6E26A /* IOSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243A51C398F8200B6E26A /* IOSocket.swift */; };
+		B7F243AC1C398F8200B6E26A /* SocketEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243A61C398F8200B6E26A /* SocketEventController.swift */; };
+		B7F243AD1C398F8200B6E26A /* DispatchSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243A71C398F8200B6E26A /* DispatchSource.swift */; };
+		B7F243AE1C398F8200B6E26A /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243A81C398F8200B6E26A /* Buffer.swift */; };
+		B7F243B31C398F8E00B6E26A /* IOController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243B01C398F8E00B6E26A /* IOController.swift */; };
+		B7F243B41C398F8E00B6E26A /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243B11C398F8E00B6E26A /* Operations.swift */; };
+		B7F243B51C398F8E00B6E26A /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243B21C398F8E00B6E26A /* Listener.swift */; };
+		B7F243B91C398F9A00B6E26A /* MiddlewareStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243B71C398F9A00B6E26A /* MiddlewareStack.swift */; };
+		B7F243BA1C398F9A00B6E26A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243B81C398F9A00B6E26A /* Environment.swift */; };
+		B7F243C01C398FAC00B6E26A /* HTTPIOAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243BC1C398FAC00B6E26A /* HTTPIOAdapter.swift */; };
+		B7F243C11C398FAC00B6E26A /* HTTPHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243BD1C398FAC00B6E26A /* HTTPHeaders.swift */; };
+		B7F243C21C398FAC00B6E26A /* HTTPHeaderName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243BE1C398FAC00B6E26A /* HTTPHeaderName.swift */; };
+		B7F243C31C398FAC00B6E26A /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243BF1C398FAC00B6E26A /* HTTPStatus.swift */; };
+		B7F243C81C39CA6B00B6E26A /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243C71C39CA6B00B6E26A /* Log.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +49,26 @@
 		B7F243891C398E5B00B6E26A /* SwitchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwitchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7F2438E1C398E5B00B6E26A /* SwitchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchTests.swift; sourceTree = "<group>"; };
 		B7F243901C398E5B00B6E26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B7F243991C398F5B00B6E26A /* DarwinBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DarwinBridge.m; sourceTree = "<group>"; };
+		B7F2439A1C398F5B00B6E26A /* DarwinBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DarwinBridge.h; sourceTree = "<group>"; };
+		B7F2439E1C398F7100B6E26A /* Signals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signals.swift; sourceTree = "<group>"; };
+		B7F2439F1C398F7100B6E26A /* URI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URI.swift; sourceTree = "<group>"; };
+		B7F243A31C398F8200B6E26A /* Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
+		B7F243A41C398F8200B6E26A /* ListenerSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListenerSocket.swift; sourceTree = "<group>"; };
+		B7F243A51C398F8200B6E26A /* IOSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOSocket.swift; sourceTree = "<group>"; };
+		B7F243A61C398F8200B6E26A /* SocketEventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEventController.swift; sourceTree = "<group>"; };
+		B7F243A71C398F8200B6E26A /* DispatchSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchSource.swift; sourceTree = "<group>"; };
+		B7F243A81C398F8200B6E26A /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
+		B7F243B01C398F8E00B6E26A /* IOController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IOController.swift; sourceTree = "<group>"; };
+		B7F243B11C398F8E00B6E26A /* Operations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
+		B7F243B21C398F8E00B6E26A /* Listener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
+		B7F243B71C398F9A00B6E26A /* MiddlewareStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlewareStack.swift; sourceTree = "<group>"; };
+		B7F243B81C398F9A00B6E26A /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		B7F243BC1C398FAC00B6E26A /* HTTPIOAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPIOAdapter.swift; sourceTree = "<group>"; };
+		B7F243BD1C398FAC00B6E26A /* HTTPHeaders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeaders.swift; sourceTree = "<group>"; };
+		B7F243BE1C398FAC00B6E26A /* HTTPHeaderName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPHeaderName.swift; sourceTree = "<group>"; };
+		B7F243BF1C398FAC00B6E26A /* HTTPStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatus.swift; sourceTree = "<group>"; };
+		B7F243C71C39CA6B00B6E26A /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +113,12 @@
 			children = (
 				B7F243821C398E5B00B6E26A /* Switch.h */,
 				B7F243841C398E5B00B6E26A /* Info.plist */,
+				B7F2439D1C398F6500B6E26A /* Bridges */,
+				B7F243C41C398FBC00B6E26A /* HTTP */,
+				B7F243B61C398F9200B6E26A /* IO */,
+				B7F243BB1C398F9F00B6E26A /* Middleware */,
+				B7F243AF1C398F8600B6E26A /* Sockets */,
+				B7F243A21C398F7600B6E26A /* Utilities */,
 			);
 			path = Switch;
 			sourceTree = "<group>";
@@ -86,6 +132,68 @@
 			path = SwitchTests;
 			sourceTree = "<group>";
 		};
+		B7F2439D1C398F6500B6E26A /* Bridges */ = {
+			isa = PBXGroup;
+			children = (
+				B7F243991C398F5B00B6E26A /* DarwinBridge.m */,
+				B7F2439A1C398F5B00B6E26A /* DarwinBridge.h */,
+			);
+			name = Bridges;
+			sourceTree = "<group>";
+		};
+		B7F243A21C398F7600B6E26A /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B7F2439E1C398F7100B6E26A /* Signals.swift */,
+				B7F2439F1C398F7100B6E26A /* URI.swift */,
+				B7F243C71C39CA6B00B6E26A /* Log.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		B7F243AF1C398F8600B6E26A /* Sockets */ = {
+			isa = PBXGroup;
+			children = (
+				B7F243A31C398F8200B6E26A /* Socket.swift */,
+				B7F243A41C398F8200B6E26A /* ListenerSocket.swift */,
+				B7F243A51C398F8200B6E26A /* IOSocket.swift */,
+				B7F243A61C398F8200B6E26A /* SocketEventController.swift */,
+				B7F243A71C398F8200B6E26A /* DispatchSource.swift */,
+				B7F243A81C398F8200B6E26A /* Buffer.swift */,
+			);
+			name = Sockets;
+			sourceTree = "<group>";
+		};
+		B7F243B61C398F9200B6E26A /* IO */ = {
+			isa = PBXGroup;
+			children = (
+				B7F243B01C398F8E00B6E26A /* IOController.swift */,
+				B7F243B11C398F8E00B6E26A /* Operations.swift */,
+				B7F243B21C398F8E00B6E26A /* Listener.swift */,
+			);
+			name = IO;
+			sourceTree = "<group>";
+		};
+		B7F243BB1C398F9F00B6E26A /* Middleware */ = {
+			isa = PBXGroup;
+			children = (
+				B7F243B71C398F9A00B6E26A /* MiddlewareStack.swift */,
+				B7F243B81C398F9A00B6E26A /* Environment.swift */,
+			);
+			name = Middleware;
+			sourceTree = "<group>";
+		};
+		B7F243C41C398FBC00B6E26A /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				B7F243BC1C398FAC00B6E26A /* HTTPIOAdapter.swift */,
+				B7F243BD1C398FAC00B6E26A /* HTTPHeaders.swift */,
+				B7F243BE1C398FAC00B6E26A /* HTTPHeaderName.swift */,
+				B7F243BF1C398FAC00B6E26A /* HTTPStatus.swift */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -93,6 +201,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F2439C1C398F5B00B6E26A /* DarwinBridge.h in Headers */,
 				B7F243831C398E5B00B6E26A /* Switch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +303,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7F243B91C398F9A00B6E26A /* MiddlewareStack.swift in Sources */,
+				B7F243AD1C398F8200B6E26A /* DispatchSource.swift in Sources */,
+				B7F243C21C398FAC00B6E26A /* HTTPHeaderName.swift in Sources */,
+				B7F243AB1C398F8200B6E26A /* IOSocket.swift in Sources */,
+				B7F243BA1C398F9A00B6E26A /* Environment.swift in Sources */,
+				B7F243A91C398F8200B6E26A /* Socket.swift in Sources */,
+				B7F243B41C398F8E00B6E26A /* Operations.swift in Sources */,
+				B7F243B31C398F8E00B6E26A /* IOController.swift in Sources */,
+				B7F243C01C398FAC00B6E26A /* HTTPIOAdapter.swift in Sources */,
+				B7F243C11C398FAC00B6E26A /* HTTPHeaders.swift in Sources */,
+				B7F2439B1C398F5B00B6E26A /* DarwinBridge.m in Sources */,
+				B7F243C31C398FAC00B6E26A /* HTTPStatus.swift in Sources */,
+				B7F243A01C398F7100B6E26A /* Signals.swift in Sources */,
+				B7F243B51C398F8E00B6E26A /* Listener.swift in Sources */,
+				B7F243C81C39CA6B00B6E26A /* Log.swift in Sources */,
+				B7F243AA1C398F8200B6E26A /* ListenerSocket.swift in Sources */,
+				B7F243A11C398F7100B6E26A /* URI.swift in Sources */,
+				B7F243AC1C398F8200B6E26A /* SocketEventController.swift in Sources */,
+				B7F243AE1C398F8200B6E26A /* Buffer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +433,7 @@
 		B7F243941C398E5B00B6E26A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -314,15 +443,18 @@
 				INFOPLIST_FILE = Switch/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.playfair.Switch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		B7F243951C398E5B00B6E26A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

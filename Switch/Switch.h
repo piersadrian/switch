@@ -6,7 +6,9 @@
 //  Copyright © 2016 Playfair, LLC. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+
+#import "DarwinBridge.h"
 
 //! Project version number for Switch.
 FOUNDATION_EXPORT double SwitchVersionNumber;
