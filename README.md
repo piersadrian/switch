@@ -1,5 +1,7 @@
 # Switch
 
+[![Stories in Ready](https://badge.waffle.io/piersadrian/switch.svg?label=ready&title=Ready)](http://waffle.io/piersadrian/switch)
+
 Switch is a pure-Swift HTTP server framework, including network IO, an HTTP server, and a simple structure for building apps.
 
 ### Current status
