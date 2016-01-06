@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B747622F1C3C652B007B0569 /* Port.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B747622E1C3C652B007B0569 /* Port.framework */; };
 		B7F243DD1C3B42CB00B6E26A /* Flow.h in Headers */ = {isa = PBXBuildFile; fileRef = B7F243DC1C3B42CB00B6E26A /* Flow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7F243E41C3B42CB00B6E26A /* Flow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F243D91C3B42CB00B6E26A /* Flow.framework */; };
 		B7F243E91C3B42CB00B6E26A /* FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F243E81C3B42CB00B6E26A /* FlowTests.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B747622E1C3C652B007B0569 /* Port.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Port.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Switch-gvgypgbzctmgalaqtgszwqpdrfvw/Build/Products/Debug/Port.framework"; sourceTree = "<group>"; };
 		B7F243D91C3B42CB00B6E26A /* Flow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Flow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7F243DC1C3B42CB00B6E26A /* Flow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flow.h; sourceTree = "<group>"; };
 		B7F243DE1C3B42CB00B6E26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B747622F1C3C652B007B0569 /* Port.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +100,7 @@
 		B7F243CF1C3B42CA00B6E26A = {
 			isa = PBXGroup;
 			children = (
+				B747622E1C3C652B007B0569 /* Port.framework */,
 				B7F243DB1C3B42CB00B6E26A /* Flow */,
 				B7F243E71C3B42CB00B6E26A /* FlowTests */,
 				B7F243DA1C3B42CB00B6E26A /* Products */,

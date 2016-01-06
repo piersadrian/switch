@@ -7,6 +7,9 @@
 //
 
 import Foundation
-import Switch
+import class Flow.Listener
+
+let l = Listener()
+l.start()
 
 //print("Hello, World!")

@@ -20,7 +20,7 @@ public class Listener: ListenerSocketDelegate, MiddlewareStackDelegate {
 
     // MARK: - Lifecycle
 
-    init() {
+    public init() {
         self.queue = dispatch_queue_create("requestQueue", DISPATCH_QUEUE_CONCURRENT)
         self.socket = ListenerSocket()
         self.socket.delegate = self
@@ -44,7 +44,7 @@ public class Listener: ListenerSocketDelegate, MiddlewareStackDelegate {
 
     // MARK: - Private API
 
-    // MARK: - ResponderDelegate
+    // MARK: - MiddlewareStackDelegate
 
     func didCompleteResponse(stack: MiddlewareStack) {
         dispatch_sync(queue) {

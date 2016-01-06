@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B747620E1C3C5D32007B0569 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747620D1C3C5D32007B0569 /* Headers.swift */; };
+		B74762101C3C5D40007B0569 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747620F1C3C5D40007B0569 /* Request.swift */; };
+		B74762121C3C5D49007B0569 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74762111C3C5D49007B0569 /* Response.swift */; };
+		B74762141C3C5E88007B0569 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74762131C3C5E88007B0569 /* Status.swift */; };
+		B74762311C3C6530007B0569 /* Port.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74762301C3C6530007B0569 /* Port.framework */; };
 		B7F2445C1C3B43EA00B6E26A /* Hyper.h in Headers */ = {isa = PBXBuildFile; fileRef = B7F2445B1C3B43EA00B6E26A /* Hyper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7F244631C3B43EA00B6E26A /* Hyper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F244581C3B43EA00B6E26A /* Hyper.framework */; };
 		B7F244681C3B43EA00B6E26A /* HyperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F244671C3B43EA00B6E26A /* HyperTests.swift */; };
@@ -23,6 +28,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B747620D1C3C5D32007B0569 /* Headers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Headers.swift; path = HTTP/Headers.swift; sourceTree = "<group>"; };
+		B747620F1C3C5D40007B0569 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Request.swift; path = HTTP/Request.swift; sourceTree = "<group>"; };
+		B74762111C3C5D49007B0569 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = HTTP/Response.swift; sourceTree = "<group>"; };
+		B74762131C3C5E88007B0569 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Status.swift; path = HTTP/Status.swift; sourceTree = "<group>"; };
+		B74762301C3C6530007B0569 /* Port.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Port.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Switch-gvgypgbzctmgalaqtgszwqpdrfvw/Build/Products/Debug/Port.framework"; sourceTree = "<group>"; };
 		B7F244581C3B43EA00B6E26A /* Hyper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7F2445B1C3B43EA00B6E26A /* Hyper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hyper.h; sourceTree = "<group>"; };
 		B7F2445D1C3B43EA00B6E26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -36,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B74762311C3C6530007B0569 /* Port.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,9 +61,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B747620C1C3C5C6F007B0569 /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				B747620D1C3C5D32007B0569 /* Headers.swift */,
+				B74762131C3C5E88007B0569 /* Status.swift */,
+				B747620F1C3C5D40007B0569 /* Request.swift */,
+				B74762111C3C5D49007B0569 /* Response.swift */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
 		B7F2444E1C3B43EA00B6E26A = {
 			isa = PBXGroup;
 			children = (
+				B74762301C3C6530007B0569 /* Port.framework */,
 				B7F2445A1C3B43EA00B6E26A /* Hyper */,
 				B7F244661C3B43EA00B6E26A /* HyperTests */,
 				B7F244591C3B43EA00B6E26A /* Products */,
@@ -71,6 +94,7 @@
 		B7F2445A1C3B43EA00B6E26A /* Hyper */ = {
 			isa = PBXGroup;
 			children = (
+				B747620C1C3C5C6F007B0569 /* HTTP */,
 				B7F2445B1C3B43EA00B6E26A /* Hyper.h */,
 				B7F2445D1C3B43EA00B6E26A /* Info.plist */,
 			);
@@ -194,6 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B747620E1C3C5D32007B0569 /* Headers.swift in Sources */,
+				B74762121C3C5D49007B0569 /* Response.swift in Sources */,
+				B74762101C3C5D40007B0569 /* Request.swift in Sources */,
+				B74762141C3C5E88007B0569 /* Status.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
