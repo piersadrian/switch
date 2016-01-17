@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7F244571C3B43EA00B6E26A"
+               BlueprintIdentifier = "B74763021C4196EF007B0569"
                BuildableName = "Hyper.framework"
                BlueprintName = "Hyper"
                ReferencedContainer = "container:Hyper.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7F244611C3B43EA00B6E26A"
+               BlueprintIdentifier = "B747630C1C4196EF007B0569"
                BuildableName = "HyperTests.xctest"
                BlueprintName = "HyperTests"
                ReferencedContainer = "container:Hyper.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7F244571C3B43EA00B6E26A"
+            BlueprintIdentifier = "B74763021C4196EF007B0569"
             BuildableName = "Hyper.framework"
             BlueprintName = "Hyper"
             ReferencedContainer = "container:Hyper.xcodeproj">
@@ -64,7 +64,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7F244571C3B43EA00B6E26A"
+            BlueprintIdentifier = "B74763021C4196EF007B0569"
             BuildableName = "Hyper.framework"
             BlueprintName = "Hyper"
             ReferencedContainer = "container:Hyper.xcodeproj">
@@ -82,7 +82,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7F244571C3B43EA00B6E26A"
+            BlueprintIdentifier = "B74763021C4196EF007B0569"
             BuildableName = "Hyper.framework"
             BlueprintName = "Hyper"
             ReferencedContainer = "container:Hyper.xcodeproj">

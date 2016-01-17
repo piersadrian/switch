@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B74763601C419E35007B0569 /* Hyper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B747635F1C419E35007B0569 /* Hyper.framework */; };
 		B7F244A91C3B481B00B6E26A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F244A81C3B481B00B6E26A /* main.swift */; };
-		B7F244B01C3B486500B6E26A /* Switch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F244AF1C3B486500B6E26A /* Switch.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,9 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B747635F1C419E35007B0569 /* Hyper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hyper.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Switch-gvgypgbzctmgalaqtgszwqpdrfvw/Build/Products/Debug/Hyper.framework"; sourceTree = "<group>"; };
 		B7F244A51C3B481B00B6E26A /* Test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Test; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7F244A81C3B481B00B6E26A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		B7F244AF1C3B486500B6E26A /* Switch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Switch.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Switch-gvgypgbzctmgalaqtgszwqpdrfvw/Build/Products/Debug/Switch.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7F244B01C3B486500B6E26A /* Switch.framework in Frameworks */,
+				B74763601C419E35007B0569 /* Hyper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +44,7 @@
 		B7F2449C1C3B481B00B6E26A = {
 			isa = PBXGroup;
 			children = (
-				B7F244AF1C3B486500B6E26A /* Switch.framework */,
+				B747635F1C419E35007B0569 /* Hyper.framework */,
 				B7F244A71C3B481B00B6E26A /* Test */,
 				B7F244A61C3B481B00B6E26A /* Products */,
 			);

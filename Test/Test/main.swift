@@ -6,10 +6,10 @@
 //  Copyright © 2016 Playfair, LLC. All rights reserved.
 //
 
-import Foundation
-import class Flow.Listener
+import Hyper
 
-let l = Listener()
-l.start()
+// This class is the last item in the global middleware stack, and implements
+// its own private middleware stack to wrap Responders
 
-//print("Hello, World!")
+let server = HTTPServer()
+server.start()

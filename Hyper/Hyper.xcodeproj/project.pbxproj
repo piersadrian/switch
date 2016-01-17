@@ -7,131 +7,164 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B747620E1C3C5D32007B0569 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747620D1C3C5D32007B0569 /* Headers.swift */; };
-		B74762101C3C5D40007B0569 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747620F1C3C5D40007B0569 /* Request.swift */; };
-		B74762121C3C5D49007B0569 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74762111C3C5D49007B0569 /* Response.swift */; };
-		B74762141C3C5E88007B0569 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74762131C3C5E88007B0569 /* Status.swift */; };
-		B74762311C3C6530007B0569 /* Port.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74762301C3C6530007B0569 /* Port.framework */; };
-		B7F2445C1C3B43EA00B6E26A /* Hyper.h in Headers */ = {isa = PBXBuildFile; fileRef = B7F2445B1C3B43EA00B6E26A /* Hyper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7F244631C3B43EA00B6E26A /* Hyper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F244581C3B43EA00B6E26A /* Hyper.framework */; };
-		B7F244681C3B43EA00B6E26A /* HyperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F244671C3B43EA00B6E26A /* HyperTests.swift */; };
+		B747630E1C4196EF007B0569 /* Hyper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74763031C4196EF007B0569 /* Hyper.framework */; };
+		B747633D1C419760007B0569 /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747631F1C419760007B0569 /* Compressor.swift */; };
+		B74763451C419760007B0569 /* HTTPIOAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763281C419760007B0569 /* HTTPIOAdapter.swift */; };
+		B747634D1C419760007B0569 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763301C419760007B0569 /* Log.swift */; };
+		B747634E1C419760007B0569 /* MiddlewareStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763311C419760007B0569 /* MiddlewareStack.swift */; };
+		B74763501C419760007B0569 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763341C419760007B0569 /* Protocol.swift */; };
+		B74763541C419760007B0569 /* URI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763381C419760007B0569 /* URI.swift */; };
+		B74763581C419B2F007B0569 /* Hyper.h in Headers */ = {isa = PBXBuildFile; fileRef = B747632A1C419760007B0569 /* Hyper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B74763591C419B7D007B0569 /* HyperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747633A1C419760007B0569 /* HyperTests.swift */; };
+		B74763911C42EE2C007B0569 /* Flow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74763901C42EE2C007B0569 /* Flow.framework */; };
+		B74763A21C42EF91007B0569 /* Headers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747639E1C42EF91007B0569 /* Headers.swift */; };
+		B74763A31C42EF91007B0569 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747639F1C42EF91007B0569 /* Request.swift */; };
+		B74763A41C42EF91007B0569 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763A01C42EF91007B0569 /* Response.swift */; };
+		B74763A51C42EF91007B0569 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763A11C42EF91007B0569 /* Status.swift */; };
+		B74763C21C430EE5007B0569 /* Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B74763C11C430ED7007B0569 /* Internal.h */; };
+		B7D84EFA1C443A56002E6966 /* HTTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D84EF91C443A56002E6966 /* HTTPServer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B7F244641C3B43EA00B6E26A /* PBXContainerItemProxy */ = {
+		B747630F1C4196EF007B0569 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = B7F2444F1C3B43EA00B6E26A /* Project object */;
+			containerPortal = B74762FA1C4196EF007B0569 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B7F244571C3B43EA00B6E26A;
+			remoteGlobalIDString = B74763021C4196EF007B0569;
 			remoteInfo = Hyper;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		B747620D1C3C5D32007B0569 /* Headers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Headers.swift; path = HTTP/Headers.swift; sourceTree = "<group>"; };
-		B747620F1C3C5D40007B0569 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Request.swift; path = HTTP/Request.swift; sourceTree = "<group>"; };
-		B74762111C3C5D49007B0569 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Response.swift; path = HTTP/Response.swift; sourceTree = "<group>"; };
-		B74762131C3C5E88007B0569 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Status.swift; path = HTTP/Status.swift; sourceTree = "<group>"; };
-		B74762301C3C6530007B0569 /* Port.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Port.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Switch-gvgypgbzctmgalaqtgszwqpdrfvw/Build/Products/Debug/Port.framework"; sourceTree = "<group>"; };
-		B7F244581C3B43EA00B6E26A /* Hyper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7F2445B1C3B43EA00B6E26A /* Hyper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hyper.h; sourceTree = "<group>"; };
-		B7F2445D1C3B43EA00B6E26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B7F244621C3B43EA00B6E26A /* HyperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B7F244671C3B43EA00B6E26A /* HyperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperTests.swift; sourceTree = "<group>"; };
-		B7F244691C3B43EA00B6E26A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B74763031C4196EF007B0569 /* Hyper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B747630D1C4196EF007B0569 /* HyperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B747631F1C419760007B0569 /* Compressor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compressor.swift; sourceTree = "<group>"; };
+		B74763281C419760007B0569 /* HTTPIOAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPIOAdapter.swift; sourceTree = "<group>"; };
+		B747632A1C419760007B0569 /* Hyper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyper.h; sourceTree = "<group>"; };
+		B747632B1C419760007B0569 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B74763301C419760007B0569 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		B74763311C419760007B0569 /* MiddlewareStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlewareStack.swift; sourceTree = "<group>"; };
+		B74763341C419760007B0569 /* Protocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		B74763381C419760007B0569 /* URI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URI.swift; sourceTree = "<group>"; };
+		B747633A1C419760007B0569 /* HyperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HyperTests.swift; sourceTree = "<group>"; };
+		B747633B1C419760007B0569 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B74763901C42EE2C007B0569 /* Flow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Flow.framework; path = "../../../../Library/Developer/Xcode/DerivedData/Switch-gvgypgbzctmgalaqtgszwqpdrfvw/Build/Products/Debug/Flow.framework"; sourceTree = "<group>"; };
+		B747639E1C42EF91007B0569 /* Headers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Headers.swift; sourceTree = "<group>"; };
+		B747639F1C42EF91007B0569 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		B74763A01C42EF91007B0569 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		B74763A11C42EF91007B0569 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		B74763C11C430ED7007B0569 /* Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Internal.h; sourceTree = "<group>"; };
+		B7D84EF91C443A56002E6966 /* HTTPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B7F244541C3B43EA00B6E26A /* Frameworks */ = {
+		B74762FF1C4196EF007B0569 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B74762311C3C6530007B0569 /* Port.framework in Frameworks */,
+				B74763911C42EE2C007B0569 /* Flow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B7F2445F1C3B43EA00B6E26A /* Frameworks */ = {
+		B747630A1C4196EF007B0569 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7F244631C3B43EA00B6E26A /* Hyper.framework in Frameworks */,
+				B747630E1C4196EF007B0569 /* Hyper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B747620C1C3C5C6F007B0569 /* HTTP */ = {
+		B74762F91C4196EF007B0569 = {
 			isa = PBXGroup;
 			children = (
-				B747620D1C3C5D32007B0569 /* Headers.swift */,
-				B74762131C3C5E88007B0569 /* Status.swift */,
-				B747620F1C3C5D40007B0569 /* Request.swift */,
-				B74762111C3C5D49007B0569 /* Response.swift */,
-			);
-			name = HTTP;
-			sourceTree = "<group>";
-		};
-		B7F2444E1C3B43EA00B6E26A = {
-			isa = PBXGroup;
-			children = (
-				B74762301C3C6530007B0569 /* Port.framework */,
-				B7F2445A1C3B43EA00B6E26A /* Hyper */,
-				B7F244661C3B43EA00B6E26A /* HyperTests */,
-				B7F244591C3B43EA00B6E26A /* Products */,
+				B74763901C42EE2C007B0569 /* Flow.framework */,
+				B747631D1C419760007B0569 /* Sources */,
+				B74763391C419760007B0569 /* Tests */,
+				B74763041C4196EF007B0569 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		B7F244591C3B43EA00B6E26A /* Products */ = {
+		B74763041C4196EF007B0569 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B7F244581C3B43EA00B6E26A /* Hyper.framework */,
-				B7F244621C3B43EA00B6E26A /* HyperTests.xctest */,
+				B74763031C4196EF007B0569 /* Hyper.framework */,
+				B747630D1C4196EF007B0569 /* HyperTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B7F2445A1C3B43EA00B6E26A /* Hyper */ = {
+		B747631D1C419760007B0569 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				B747620C1C3C5C6F007B0569 /* HTTP */,
-				B7F2445B1C3B43EA00B6E26A /* Hyper.h */,
-				B7F2445D1C3B43EA00B6E26A /* Info.plist */,
+				B747632A1C419760007B0569 /* Hyper.h */,
+				B7D84EF91C443A56002E6966 /* HTTPServer.swift */,
+				B74763C11C430ED7007B0569 /* Internal.h */,
+				B747639D1C42EF91007B0569 /* HTTP */,
+				B74763C01C430E3A007B0569 /* Middleware */,
+				B74763281C419760007B0569 /* HTTPIOAdapter.swift */,
+				B747632B1C419760007B0569 /* Info.plist */,
+				B74763301C419760007B0569 /* Log.swift */,
+				B74763381C419760007B0569 /* URI.swift */,
 			);
-			path = Hyper;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		B7F244661C3B43EA00B6E26A /* HyperTests */ = {
+		B74763391C419760007B0569 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				B7F244671C3B43EA00B6E26A /* HyperTests.swift */,
-				B7F244691C3B43EA00B6E26A /* Info.plist */,
+				B747633A1C419760007B0569 /* HyperTests.swift */,
+				B747633B1C419760007B0569 /* Info.plist */,
 			);
-			path = HyperTests;
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		B747639D1C42EF91007B0569 /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				B74763341C419760007B0569 /* Protocol.swift */,
+				B747639E1C42EF91007B0569 /* Headers.swift */,
+				B747639F1C42EF91007B0569 /* Request.swift */,
+				B74763A01C42EF91007B0569 /* Response.swift */,
+				B74763A11C42EF91007B0569 /* Status.swift */,
+			);
+			path = HTTP;
+			sourceTree = "<group>";
+		};
+		B74763C01C430E3A007B0569 /* Middleware */ = {
+			isa = PBXGroup;
+			children = (
+				B74763311C419760007B0569 /* MiddlewareStack.swift */,
+				B747631F1C419760007B0569 /* Compressor.swift */,
+			);
+			name = Middleware;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		B7F244551C3B43EA00B6E26A /* Headers */ = {
+		B74763001C4196EF007B0569 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7F2445C1C3B43EA00B6E26A /* Hyper.h in Headers */,
+				B74763581C419B2F007B0569 /* Hyper.h in Headers */,
+				B74763C21C430EE5007B0569 /* Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		B7F244571C3B43EA00B6E26A /* Hyper */ = {
+		B74763021C4196EF007B0569 /* Hyper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B7F2446C1C3B43EA00B6E26A /* Build configuration list for PBXNativeTarget "Hyper" */;
+			buildConfigurationList = B74763171C4196EF007B0569 /* Build configuration list for PBXNativeTarget "Hyper" */;
 			buildPhases = (
-				B7F244531C3B43EA00B6E26A /* Sources */,
-				B7F244541C3B43EA00B6E26A /* Frameworks */,
-				B7F244551C3B43EA00B6E26A /* Headers */,
-				B7F244561C3B43EA00B6E26A /* Resources */,
+				B74762FE1C4196EF007B0569 /* Sources */,
+				B74762FF1C4196EF007B0569 /* Frameworks */,
+				B74763001C4196EF007B0569 /* Headers */,
+				B74763011C4196EF007B0569 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -139,72 +172,72 @@
 			);
 			name = Hyper;
 			productName = Hyper;
-			productReference = B7F244581C3B43EA00B6E26A /* Hyper.framework */;
+			productReference = B74763031C4196EF007B0569 /* Hyper.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B7F244611C3B43EA00B6E26A /* HyperTests */ = {
+		B747630C1C4196EF007B0569 /* HyperTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B7F2446F1C3B43EA00B6E26A /* Build configuration list for PBXNativeTarget "HyperTests" */;
+			buildConfigurationList = B747631A1C4196EF007B0569 /* Build configuration list for PBXNativeTarget "HyperTests" */;
 			buildPhases = (
-				B7F2445E1C3B43EA00B6E26A /* Sources */,
-				B7F2445F1C3B43EA00B6E26A /* Frameworks */,
-				B7F244601C3B43EA00B6E26A /* Resources */,
+				B74763091C4196EF007B0569 /* Sources */,
+				B747630A1C4196EF007B0569 /* Frameworks */,
+				B747630B1C4196EF007B0569 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B7F244651C3B43EA00B6E26A /* PBXTargetDependency */,
+				B74763101C4196EF007B0569 /* PBXTargetDependency */,
 			);
 			name = HyperTests;
 			productName = HyperTests;
-			productReference = B7F244621C3B43EA00B6E26A /* HyperTests.xctest */;
+			productReference = B747630D1C4196EF007B0569 /* HyperTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		B7F2444F1C3B43EA00B6E26A /* Project object */ = {
+		B74762FA1C4196EF007B0569 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Playfair, LLC";
 				TargetAttributes = {
-					B7F244571C3B43EA00B6E26A = {
+					B74763021C4196EF007B0569 = {
 						CreatedOnToolsVersion = 7.2;
 					};
-					B7F244611C3B43EA00B6E26A = {
+					B747630C1C4196EF007B0569 = {
 						CreatedOnToolsVersion = 7.2;
 					};
 				};
 			};
-			buildConfigurationList = B7F244521C3B43EA00B6E26A /* Build configuration list for PBXProject "Hyper" */;
+			buildConfigurationList = B74762FD1C4196EF007B0569 /* Build configuration list for PBXProject "Hyper" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = B7F2444E1C3B43EA00B6E26A;
-			productRefGroup = B7F244591C3B43EA00B6E26A /* Products */;
+			mainGroup = B74762F91C4196EF007B0569;
+			productRefGroup = B74763041C4196EF007B0569 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B7F244571C3B43EA00B6E26A /* Hyper */,
-				B7F244611C3B43EA00B6E26A /* HyperTests */,
+				B74763021C4196EF007B0569 /* Hyper */,
+				B747630C1C4196EF007B0569 /* HyperTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		B7F244561C3B43EA00B6E26A /* Resources */ = {
+		B74763011C4196EF007B0569 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B7F244601C3B43EA00B6E26A /* Resources */ = {
+		B747630B1C4196EF007B0569 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -214,37 +247,44 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B7F244531C3B43EA00B6E26A /* Sources */ = {
+		B74762FE1C4196EF007B0569 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B747620E1C3C5D32007B0569 /* Headers.swift in Sources */,
-				B74762121C3C5D49007B0569 /* Response.swift in Sources */,
-				B74762101C3C5D40007B0569 /* Request.swift in Sources */,
-				B74762141C3C5E88007B0569 /* Status.swift in Sources */,
+				B7D84EFA1C443A56002E6966 /* HTTPServer.swift in Sources */,
+				B747634E1C419760007B0569 /* MiddlewareStack.swift in Sources */,
+				B74763541C419760007B0569 /* URI.swift in Sources */,
+				B74763A51C42EF91007B0569 /* Status.swift in Sources */,
+				B74763A21C42EF91007B0569 /* Headers.swift in Sources */,
+				B74763451C419760007B0569 /* HTTPIOAdapter.swift in Sources */,
+				B74763A41C42EF91007B0569 /* Response.swift in Sources */,
+				B747634D1C419760007B0569 /* Log.swift in Sources */,
+				B74763501C419760007B0569 /* Protocol.swift in Sources */,
+				B74763A31C42EF91007B0569 /* Request.swift in Sources */,
+				B747633D1C419760007B0569 /* Compressor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B7F2445E1C3B43EA00B6E26A /* Sources */ = {
+		B74763091C4196EF007B0569 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7F244681C3B43EA00B6E26A /* HyperTests.swift in Sources */,
+				B74763591C419B7D007B0569 /* HyperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B7F244651C3B43EA00B6E26A /* PBXTargetDependency */ = {
+		B74763101C4196EF007B0569 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B7F244571C3B43EA00B6E26A /* Hyper */;
-			targetProxy = B7F244641C3B43EA00B6E26A /* PBXContainerItemProxy */;
+			target = B74763021C4196EF007B0569 /* Hyper */;
+			targetProxy = B747630F1C4196EF007B0569 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		B7F2446A1C3B43EA00B6E26A /* Debug */ = {
+		B74763151C4196EF007B0569 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -291,7 +331,7 @@
 			};
 			name = Debug;
 		};
-		B7F2446B1C3B43EA00B6E26A /* Release */ = {
+		B74763161C4196EF007B0569 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -330,37 +370,36 @@
 			};
 			name = Release;
 		};
-		B7F2446D1C3B43EA00B6E26A /* Debug */ = {
+		B74763181C4196EF007B0569 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Hyper/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.playfair.Hyper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		B7F2446E1C3B43EA00B6E26A /* Release */ = {
+		B74763191C4196EF007B0569 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Hyper/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.playfair.Hyper;
@@ -369,59 +408,61 @@
 			};
 			name = Release;
 		};
-		B7F244701C3B43EA00B6E26A /* Debug */ = {
+		B747631B1C4196EF007B0569 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = HyperTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.playfair.HyperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hyper-Bridging-Header.h";
 			};
 			name = Debug;
 		};
-		B7F244711C3B43EA00B6E26A /* Release */ = {
+		B747631C1C4196EF007B0569 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = HyperTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.playfair.HyperTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Hyper-Bridging-Header.h";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B7F244521C3B43EA00B6E26A /* Build configuration list for PBXProject "Hyper" */ = {
+		B74762FD1C4196EF007B0569 /* Build configuration list for PBXProject "Hyper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B7F2446A1C3B43EA00B6E26A /* Debug */,
-				B7F2446B1C3B43EA00B6E26A /* Release */,
+				B74763151C4196EF007B0569 /* Debug */,
+				B74763161C4196EF007B0569 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B7F2446C1C3B43EA00B6E26A /* Build configuration list for PBXNativeTarget "Hyper" */ = {
+		B74763171C4196EF007B0569 /* Build configuration list for PBXNativeTarget "Hyper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B7F2446D1C3B43EA00B6E26A /* Debug */,
-				B7F2446E1C3B43EA00B6E26A /* Release */,
+				B74763181C4196EF007B0569 /* Debug */,
+				B74763191C4196EF007B0569 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B7F2446F1C3B43EA00B6E26A /* Build configuration list for PBXNativeTarget "HyperTests" */ = {
+		B747631A1C4196EF007B0569 /* Build configuration list for PBXNativeTarget "HyperTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B7F244701C3B43EA00B6E26A /* Debug */,
-				B7F244711C3B43EA00B6E26A /* Release */,
+				B747631B1C4196EF007B0569 /* Debug */,
+				B747631C1C4196EF007B0569 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = B7F2444F1C3B43EA00B6E26A /* Project object */;
+	rootObject = B74762FA1C4196EF007B0569 /* Project object */;
 }

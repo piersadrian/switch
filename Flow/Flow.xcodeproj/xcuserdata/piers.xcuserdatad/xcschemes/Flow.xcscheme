@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7F243D81C3B42CB00B6E26A"
+               BlueprintIdentifier = "B747636A1C42ED61007B0569"
                BuildableName = "Flow.framework"
                BlueprintName = "Flow"
                ReferencedContainer = "container:Flow.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B7F243E21C3B42CB00B6E26A"
+               BlueprintIdentifier = "B74763741C42ED61007B0569"
                BuildableName = "FlowTests.xctest"
                BlueprintName = "FlowTests"
                ReferencedContainer = "container:Flow.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7F243D81C3B42CB00B6E26A"
+            BlueprintIdentifier = "B747636A1C42ED61007B0569"
             BuildableName = "Flow.framework"
             BlueprintName = "Flow"
             ReferencedContainer = "container:Flow.xcodeproj">
@@ -64,7 +64,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7F243D81C3B42CB00B6E26A"
+            BlueprintIdentifier = "B747636A1C42ED61007B0569"
             BuildableName = "Flow.framework"
             BlueprintName = "Flow"
             ReferencedContainer = "container:Flow.xcodeproj">
@@ -82,7 +82,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B7F243D81C3B42CB00B6E26A"
+            BlueprintIdentifier = "B747636A1C42ED61007B0569"
             BuildableName = "Flow.framework"
             BlueprintName = "Flow"
             ReferencedContainer = "container:Flow.xcodeproj">
