@@ -8,18 +8,18 @@
 
 import Foundation
 
-protocol ServerDelegate {
-    func didReceiveRequest(server: Server, connection: Connection)
+enum ServerStatus {
+    case Starting, Running, Stopping, Stopped
 }
 
 public class Server: ListenerSocketDelegate, ConnectionDelegate {
-    var delegate: ServerDelegate?
-
     // MARK: - Internal Properties
 
     let socket: ListenerSocket
     var requestPool = Set<Connection>(minimumCapacity: 10) // TODO: global option?
     var concurrency: Int = 10
+
+    var status: ServerStatus = .Stopped
 
     // MARK: - Lifecycle
 
@@ -35,23 +35,43 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - Public API
 
     public func start() {
-        socket.open()
+        status = .Starting
+
         Signals.trap(.TERM, action: stop)
-        dispatch_main()
+        Signals.trap(.TERM, action: stop)
+
+        socket.open()
+        status = .Running
+
+        NSRunLoop.currentRunLoop().run()
     }
 
     public func stop() {
+        status = .Stopping
+
+        while !requestPool.isEmpty {}
+
         self.socket.close()
+        status = .Stopped
+
+        dispatch_sync(dispatch_get_main_queue()) {
+            exit(0)
+        }
     }
 
     // MARK: - Internal API
 
     func addConnection(conn: Connection) {
-        requestPool.insert(conn)
+        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+            self.requestPool.insert(conn)
+        }
     }
 
     func removeConnection(conn: Connection) {
-        requestPool.remove(conn)
+        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+            self.requestPool.remove(conn)
+        }
+//        print("pressure: \(Int(Float(requestPool.count) / Float(concurrency) * 100))% - removing connection \(conn.socket.socketFD)")
     }
 
     func createConnection(socket: IOSocket) -> Connection {
@@ -61,20 +81,35 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - ListenerSocketDelegate
 
     func shouldAcceptConnection(socket: ListenerSocket) -> Bool {
-        return requestPool.count < concurrency
+        let spaceAvailable = requestPool.count < concurrency
+
+        if spaceAvailable {
+//            print("pressure: \(Int(Float(requestPool.count) / Float(concurrency) * 100))% - accepting connection")
+        }
+        else {
+//            print("pressure: \(Int(Float(requestPool.count) / Float(concurrency) * 100))% - refusing connection")
+        }
+
+        return spaceAvailable
     }
 
     func didAcceptConnection(socket: ListenerSocket, ioSocket: IOSocket) {
-        let connection = createConnection(ioSocket)
+        guard status == .Running else {
+            return
+        }
 
-        delegate?.didReceiveRequest(self, connection: connection)
+        let connection = createConnection(ioSocket)
+        connection.delegate = self
+
+//        print("              - accepted connection on FD \(ioSocket.socketFD)")
+
         addConnection(connection)
-        connection.run()
+        connection.start()
     }
 
     // MARK: - ConnectionDelegate
 
-    func didCompleteResponse(connection: Connection) {
+    func didCompleteConnection(connection: Connection) {
         removeConnection(connection)
     }
 }

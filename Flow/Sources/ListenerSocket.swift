@@ -8,33 +8,50 @@
 
 import Foundation
 
-protocol ListenerSocketDelegate {
+protocol ListenerSocketDelegate: class {
     func shouldAcceptConnection(socket: ListenerSocket) -> Bool
     func didAcceptConnection(socket: ListenerSocket, ioSocket: IOSocket)
 }
 
 class ListenerSocket: Socket {
-    var delegate: ListenerSocketDelegate?
+    weak var delegate: ListenerSocketDelegate?
+
+    var totalConnectionsAccepted = 0
+
+    // MARK: - Socket Overrides
 
     override func configure() {
-        let eventHandler = {
-            let connectionCount = Int(self.events.readSource!.data())
+        let eventHandler = { [weak self] in
+            guard let sock = self else { return }
+
+            let connectionCount = Int(sock.readSource!.data())
             var acceptedConnections = 0
 
+            print("trying to accept \(connectionCount) connections")
+
             while acceptedConnections < connectionCount {
-                let shouldAccept = self.delegate?.shouldAcceptConnection(self) ?? true
-                if shouldAccept && self.acceptConnection(socket: self.socket) {
+                let shouldAccept = sock.delegate?.shouldAcceptConnection(sock) ?? true
+
+                if !shouldAccept {
+                    print("%%%% refusing connection, pool is full")
+                }
+
+                if shouldAccept && sock.acceptConnection() {
                     acceptedConnections += 1
+                    sock.totalConnectionsAccepted += 1
+                    print("accepted \(sock.totalConnectionsAccepted) total")
                 }
             }
         }
 
-        self.events.createSource(.Reader, handler: eventHandler, cancelHandler: self.close)
-        self.events.readSource!.run()
+        createSource(.Reader, handler: eventHandler, cancelHandler: self.close)
+        readSource!.run()
     }
 
+    // MARK: - Private API
+
     // FIXME: this should throw SocketErrors rather than return a Bool
-    private func acceptConnection(socket socket: CFSocket) -> Bool {
+    private func acceptConnection() -> Bool {
         // Accept the incoming connection
 
         var childAddr = sockaddr()

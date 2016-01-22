@@ -13,20 +13,20 @@ protocol Middleware {
     func call(env: Environment)
 }
 
-protocol MiddlewareStackDelegate {
+protocol MiddlewareStackDelegate: class {
     func didCompleteResponse(stack: MiddlewareStack)
 }
 
 class MiddlewareStack {
     static var stack: [Middleware.Type] = []
 
-    var io: SocketDriver
-    var delegate: MiddlewareStackDelegate?
+    var io: IOSocket
+    weak var delegate: MiddlewareStackDelegate?
 
     private var index: Int = 0
     private var env: Environment
 
-    init(io: SocketDriver) {
+    init(io: IOSocket) {
         self.io = io
         self.env = Environment()
 //        self.env = Environment(request: Request(), response: Response())
@@ -37,12 +37,12 @@ class MiddlewareStack {
             fatalError("the middleware stack is empty. Set with MiddlewareStack.stack = [MyMiddleware.self...]")
         }
 
-        io.open() // FIXME: will throw
+//        io.open() // FIXME: will throw
         call(env)
     }
 
     func finish() {
-        io.close()
+//        io.close()
         delegate?.didCompleteResponse(self)
     }
 

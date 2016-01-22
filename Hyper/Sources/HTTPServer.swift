@@ -8,6 +8,6 @@
 
 import Flow
 
-public class HTTPServer: TCPServer {
+public class HTTPServer: Server {
 }
 

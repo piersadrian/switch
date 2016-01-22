@@ -8,47 +8,55 @@
 
 import Foundation
 
-protocol ConnectionDelegate {
-    func didCompleteResponse(connection: Connection)
+protocol ConnectionDelegate: class {
+    func didCompleteConnection(connection: Connection)
 }
 
-class Connection: Hashable {
-    let driver: SocketDriver
+class Connection: Hashable, IOSocketDelegate {
+    let socket: IOSocket
 
-    var delegate: ConnectionDelegate?
+    weak var delegate: ConnectionDelegate?
 
     init(socket: IOSocket) {
-        self.driver = SocketDriver(socket: socket)
+        self.socket = socket
+        self.socket.delegate = self
+    }
+
+    deinit {
+        print("  @@@ DEINIT: Connection - for IOSocket on FD \(socket.socketFD) is deinitializing @@@")
     }
 
     // MARK: - Public API
 
-    func run() {
-        driver.open()
-        driver.readRequest { data in
-            let request = self.buildRequest(data)
-            self.handleRequest(request)
-            self.driver.writeResponse(request.response.data, completion: self.finish)
+    func start() {
+        socket.open()
+        socket.readRequest() { data in
+//            let request = self.buildRequest(data)
+//            let responseData = self.handleRequest(data)
+//            self.socket.writeResponse(responseData, completion: self.finish)
+            self.finish()
         }
     }
 
     func finish() {
-        driver.close()
-        delegate?.didCompleteResponse(self)
-    }
-
-    // override to customize request creation, request data from client, etc
-    func buildRequest(data: NSData) -> Request {
-        return RawRequest(data: data)
+        socket.close()
     }
 
     // main override point for launching application logic
-    func handleRequest(req: Request) {}
+    func handleRequest(data: NSData) -> NSData {
+        return "HTTP/1.1 200 OK\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!
+    }
+
+    // MARK: - IOSocketDelegate
+
+    func socketDidClose(socket: IOSocket) {
+        delegate?.didCompleteConnection(self)
+    }
 
     // MARK: - Hashable
 
     var hashValue: Int {
-        return Int(driver.socket.socketFD)
+        return Int(socket.socketFD)
     }
 }
 

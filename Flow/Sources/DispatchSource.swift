@@ -62,8 +62,8 @@ struct DispatchSource {
             fatalError("DispatchSource is already running")
         }
 
-        dispatch_resume(self.source)
         self.status = .Running
+        dispatch_resume(self.source)
     }
 
     mutating func pause() {
@@ -75,24 +75,26 @@ struct DispatchSource {
             fatalError("DispatchSource is already paused")
         }
 
-        dispatch_suspend(self.source)
         self.status = .Paused
+        dispatch_suspend(self.source)
     }
 
     mutating func cancel() {
         guard self.status != .Cancelled else {
-            fatalError("DispatchSource is cancelled and cannot be cancelled again")
+            return
+//            fatalError("DispatchSource is cancelled and cannot be cancelled again")
         }
+
+        let wasPaused = (status == .Paused)
+        self.status = .Cancelled
 
         dispatch_source_cancel(self.source)
 
         // A paused dispatch source will never recognize that it's been cancelled
         // so its cancel handler won't run. This resumes the source so it can process
         // its cancellation. Weird but true.
-        if self.status == .Paused {
+        if wasPaused {
             dispatch_resume(self.source)
         }
-
-        self.status = .Cancelled
     }
 }

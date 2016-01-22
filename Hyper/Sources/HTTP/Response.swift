@@ -16,7 +16,7 @@ public class HTTPResponse: Response {
     public var body: [String] = []
     public var headers = ResponseHeaders()
 
-    public var data: NSData
+    public var data: NSData = NSData()
 
     init(httpVersion: HTTPVersion = .OneOne) {
         self.version = httpVersion

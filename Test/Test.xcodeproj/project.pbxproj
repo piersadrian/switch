@@ -213,6 +213,7 @@
 		B7F244AD1C3B481B00B6E26A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -220,6 +221,7 @@
 		B7F244AE1C3B481B00B6E26A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -37,7 +37,7 @@ public class SocketEventController {
 
     // MARK: - Public API
 
-    func createSource(type: DispatchSource.Kind, handler: dispatch_block_t, cancelHandler: dispatch_block_t) {
+    func createSource(type: DispatchSource.Kind, handler: dispatch_block_t, cancelHandler: dispatch_block_t) -> DispatchSource {
         let dispatchSource = DispatchSource(type: type, fd: self.fd, queue: self.queue, handler: handler)
         self.refCount += 1
 
@@ -54,5 +54,7 @@ public class SocketEventController {
         case .Writer:
             self.writeSource = dispatchSource
         }
+
+        return dispatchSource
     }
 }

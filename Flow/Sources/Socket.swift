@@ -41,11 +41,32 @@ enum SocketError: ErrorType {
     }
 }
 
+enum SocketIOError: ErrorType {
+    case EOF
+    case WouldBlock
+    case Interrupted
+    case IOFailed
+    case Error
+
+    init(errno: Int32){
+        switch errno {
+        case EAGAIN, EWOULDBLOCK:
+            self = .WouldBlock
+        case EINTR:
+            self = .Interrupted
+        case EIO:
+            self = .IOFailed
+        default:
+            self = .Error
+        }
+    }
+}
+
 enum SocketStatus {
     case Open, Closed
 }
 
-class Socket {
+public class Socket {
     // MARK: - Private Properties
 
     private var _socket: CFSocket?
@@ -66,16 +87,18 @@ class Socket {
     }
 
     var socketFD: Int32
-    var events: SocketEventController
     var queue: dispatch_queue_t
     var status: SocketStatus = .Closed
+
+    var dispatchRefCount: Int = 0
+    var readSource: DispatchSource?
+    var writeSource: DispatchSource?
 
     // MARK: - Lifecycle
 
     init() {
         self.socketFD = -1
         self.queue = dispatch_queue_create("socketQueue", DISPATCH_QUEUE_SERIAL)
-        self.events = SocketEventController(fd: -1, queue: queue)
     }
 
     convenience init(fd: CFSocketNativeHandle, queue: dispatch_queue_t? = nil) {
@@ -85,11 +108,12 @@ class Socket {
 
         if let queue = queue {
             self.queue = queue
-            self.events = SocketEventController(fd: socketFD, queue: queue)
         }
     }
 
     deinit {
+        readSource?.cancel()
+        writeSource?.cancel()
         self.close()
     }
 
@@ -137,9 +161,37 @@ class Socket {
         fatalError("Socket is abstract and must be implemented by concrete subclasses")
     }
 
+    // NOTE: this function also automatically cancels any attached dispatch sources
     private func invalidateSocket() {
-        CFSocketInvalidate(self.socket)
+        if socketFD != -1 {
+            CFSocketInvalidate(socket)
+        }
     }
+
+    // MARK: - Internal API
+
+
+    func createSource(type: DispatchSource.Kind, handler: dispatch_block_t, cancelHandler: dispatch_block_t) {
+        let dispatchSource = DispatchSource(type: type, fd: socketFD, queue: queue, handler: handler)
+        dispatchRefCount += 1
+
+        dispatch_source_set_cancel_handler(dispatchSource.source) { [weak self] in
+            guard let sock = self else { return }
+
+            sock.dispatchRefCount -= 1
+            if sock.dispatchRefCount == 0 {
+                cancelHandler()
+            }
+        }
+
+        switch type {
+        case .Reader:
+            self.readSource = dispatchSource
+        case .Writer:
+            self.writeSource = dispatchSource
+        }
+    }
+
 
     // MARK: - Public API
 
@@ -150,20 +202,24 @@ class Socket {
                     self.socketFD = try self.createAndBind()
                 }
                 catch {
-                    print("couldn't bind socket: \(error)")
+                    fatalError("couldn't bind socket: \(error)")
                 }
             }
         }
 
-        // FIXME: parameterize dispatch queue
-        self.events = SocketEventController(fd: self.socketFD, queue: dispatch_get_main_queue())
         configure()
         self.status = .Open
     }
 
     func close() {
+        status = .Closed
+
+//        dispatch_sync(queue) { [unowned self] in
+            self.readSource?.cancel()
+            self.writeSource?.cancel()
+//        }
+
         invalidateSocket()
-        self.status = .Closed
     }
 
     // MARK: - CustomStringConvertible
