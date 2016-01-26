@@ -37,6 +37,7 @@ public class ReadOperation: IOOperation {
     }
 
     var bufferLength: Int?
+    let timeout: NSTimeInterval
     let completionHandler: CompletionHandler
 
     // MARK: - Private Properties
@@ -45,12 +46,13 @@ public class ReadOperation: IOOperation {
 
     // MARK: - Lifecycle
 
-    init(buffer: ReadBuffer? = nil, completionHandler: CompletionHandler) {
+    init(buffer: ReadBuffer? = nil, timeout: NSTimeInterval, completionHandler: CompletionHandler) {
         if let buffer = buffer {
             self._buffer = buffer
             self.bufferLength = buffer.length
         }
 
+        self.timeout = timeout
         self.completionHandler = completionHandler
     }
 }
@@ -61,12 +63,14 @@ public class WriteOperation: IOOperation {
     // MARK: - Internal Properties
 
     var buffer: WriteBuffer
+    let timeout: NSTimeInterval
     let completionHandler: CompletionHandler
 
     // MARK: - Lifecycle
 
-    init(buffer: WriteBuffer, completionHandler: CompletionHandler) {
+    init(buffer: WriteBuffer, timeout: NSTimeInterval, completionHandler: CompletionHandler) {
         self.buffer = buffer
+        self.timeout = timeout
         self.completionHandler = completionHandler
     }
 }

@@ -22,34 +22,36 @@ class Connection: Hashable, IOSocketDelegate {
         self.socket.delegate = self
     }
 
-    deinit {
-        print("  @@@ DEINIT: Connection - for IOSocket on FD \(socket.socketFD) is deinitializing @@@")
-    }
+    var didCallFinish = false
+    var didCallDelegate = false
 
     // MARK: - Public API
 
     func start() {
-        socket.open()
-        socket.readRequest() { data in
+        socket.attach()
+        socket.readRequest(0.5) { data in
 //            let request = self.buildRequest(data)
-//            let responseData = self.handleRequest(data)
-//            self.socket.writeResponse(responseData, completion: self.finish)
-            self.finish()
+            let responseData = self.handleRequest(data)
+            self.socket.writeResponse(responseData, timeout: 0.5, completion: self.finish)
+//            self.finish()
         }
     }
 
     func finish() {
-        socket.close()
+        didCallFinish = true
+        socket.release()
     }
 
     // main override point for launching application logic
     func handleRequest(data: NSData) -> NSData {
-        return "HTTP/1.1 200 OK\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!
+//        sleep(arc4random() % 3)
+        return "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!
     }
 
     // MARK: - IOSocketDelegate
 
     func socketDidClose(socket: IOSocket) {
+        didCallDelegate = true
         delegate?.didCompleteConnection(self)
     }
 

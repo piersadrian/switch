@@ -16,6 +16,7 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - Internal Properties
 
     let socket: ListenerSocket
+    let requestQueue: dispatch_queue_t
     var requestPool = Set<Connection>(minimumCapacity: 10) // TODO: global option?
     var concurrency: Int = 10
 
@@ -24,6 +25,7 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - Lifecycle
 
     public init() {
+        self.requestQueue = dispatch_queue_create("RequestQueue", DISPATCH_QUEUE_SERIAL)
         self.socket = ListenerSocket()
         self.socket.delegate = self
     }
@@ -37,10 +39,10 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     public func start() {
         status = .Starting
 
-        Signals.trap(.TERM, action: stop)
-        Signals.trap(.TERM, action: stop)
+//        Signals.trap(.TERM, action: stop)
+//        Signals.trap(.TERM, action: stop)
 
-        socket.open()
+        socket.attach()
         status = .Running
 
         NSRunLoop.currentRunLoop().run()
@@ -51,7 +53,7 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
 
         while !requestPool.isEmpty {}
 
-        self.socket.close()
+        socket.release()
         status = .Stopped
 
         dispatch_sync(dispatch_get_main_queue()) {
@@ -62,16 +64,17 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - Internal API
 
     func addConnection(conn: Connection) {
-        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+        dispatch_async(socket.queue) {
             self.requestPool.insert(conn)
+            print("pressure increased to \(Int(Float(self.requestPool.count) / Float(self.concurrency) * 100))%")
         }
     }
 
     func removeConnection(conn: Connection) {
-        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+        dispatch_async(socket.queue) {
             self.requestPool.remove(conn)
+            print("pressure decreased to \(Int(Float(self.requestPool.count) / Float(self.concurrency) * 100))%")
         }
-//        print("pressure: \(Int(Float(requestPool.count) / Float(concurrency) * 100))% - removing connection \(conn.socket.socketFD)")
     }
 
     func createConnection(socket: IOSocket) -> Connection {
@@ -81,22 +84,11 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - ListenerSocketDelegate
 
     func shouldAcceptConnection(socket: ListenerSocket) -> Bool {
-        let spaceAvailable = requestPool.count < concurrency
-
-        if spaceAvailable {
-//            print("pressure: \(Int(Float(requestPool.count) / Float(concurrency) * 100))% - accepting connection")
-        }
-        else {
-//            print("pressure: \(Int(Float(requestPool.count) / Float(concurrency) * 100))% - refusing connection")
-        }
-
-        return spaceAvailable
+        return requestPool.count < concurrency
     }
 
     func didAcceptConnection(socket: ListenerSocket, ioSocket: IOSocket) {
-        guard status == .Running else {
-            return
-        }
+        guard status == .Running else { return }
 
         let connection = createConnection(ioSocket)
         connection.delegate = self
@@ -104,7 +96,10 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
 //        print("              - accepted connection on FD \(ioSocket.socketFD)")
 
         addConnection(connection)
-        connection.start()
+
+        dispatch_async(requestQueue) {
+            connection.start()
+        }
     }
 
     // MARK: - ConnectionDelegate

@@ -11,6 +11,8 @@ import Foundation
 protocol ListenerSocketDelegate: class {
     func shouldAcceptConnection(socket: ListenerSocket) -> Bool
     func didAcceptConnection(socket: ListenerSocket, ioSocket: IOSocket)
+
+//    func queueFor
 }
 
 class ListenerSocket: Socket {
@@ -27,24 +29,24 @@ class ListenerSocket: Socket {
             let connectionCount = Int(sock.readSource!.data())
             var acceptedConnections = 0
 
-            print("trying to accept \(connectionCount) connections")
+//            print("trying to accept \(connectionCount) connections")
 
             while acceptedConnections < connectionCount {
                 let shouldAccept = sock.delegate?.shouldAcceptConnection(sock) ?? true
 
                 if !shouldAccept {
-                    print("%%%% refusing connection, pool is full")
+//                    print("%%%% refusing connection, pool is full")
                 }
 
                 if shouldAccept && sock.acceptConnection() {
                     acceptedConnections += 1
                     sock.totalConnectionsAccepted += 1
-                    print("accepted \(sock.totalConnectionsAccepted) total")
+//                    print("accepted \(sock.totalConnectionsAccepted) total")
                 }
             }
         }
 
-        createSource(.Reader, handler: eventHandler, cancelHandler: self.close)
+        readSource = createSource(DISPATCH_SOURCE_TYPE_READ, handler: eventHandler) {}
         readSource!.run()
     }
 
@@ -83,7 +85,7 @@ class ListenerSocket: Socket {
         }
         else {
             // close the socket immediately as there's no delegate to handle it
-            childSocket.close()
+            childSocket.release()
         }
 
         return true

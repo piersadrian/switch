@@ -73,18 +73,18 @@ public class Socket {
 
     // MARK: - Internal Properties
 
-    var socket: CFSocket {
-        if let sock = _socket {
-            return sock
-        }
-        else if let sock = CFSocketCreateWithNative(nil, self.socketFD, 0, nil, nil) {
-            self._socket = sock
-            return sock
-        }
-        else {
-            fatalError("couldn't create CFSocket from file descriptor \(self.socketFD)")
-        }
-    }
+//    var socket: CFSocket {
+//        if let sock = _socket {
+//            return sock
+//        }
+//        else if let sock = CFSocketCreateWithNative(nil, self.socketFD, 0, nil, nil) {
+//            self._socket = sock
+//            return sock
+//        }
+//        else {
+//            fatalError("couldn't create CFSocket from file descriptor \(self.socketFD)")
+//        }
+//    }
 
     var socketFD: Int32
     var queue: dispatch_queue_t
@@ -111,10 +111,13 @@ public class Socket {
         }
     }
 
+    var deinited = false
+
     deinit {
-        readSource?.cancel()
-        writeSource?.cancel()
-        self.close()
+//        readSource?.cancel()
+//        writeSource?.cancel()
+//        self.close()
+        self.deinited = true
     }
 
     // MARK: - Private API
@@ -122,16 +125,18 @@ public class Socket {
     private func createAndBind() throws -> CFSocketNativeHandle {
         // Create socket
 
-        guard let socket = CFSocketCreate(nil, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
-            throw SocketError(errno: errno)
-        }
+//        guard let socket = CFSocketCreate(nil, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
+//            throw SocketError(errno: errno)
+//        }
+//
+//        let fd = CFSocketGetNative(socket)
+//
+//        guard fd != -1 else {
+//            throw SocketError.AlreadyInvalidated
+//        }
 
-        let fd = CFSocketGetNative(socket)
-
-        guard fd != -1 else {
-            throw SocketError.AlreadyInvalidated
-        }
-
+        let fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)
+        guard fd != -1 else { throw SocketError(errno: errno) }
 
         // Set SO_REUSEADDR prior to binding socket so we can reattach without waiting for
         // the linger time to expire
@@ -149,10 +154,17 @@ public class Socket {
         address.sin_port = CFSwapInt16HostToBig(4242)
         address.sin_addr.s_addr = 0
 
-        guard CFSocketSetAddress(socket, NSData(bytes: &address, length: sizeof(sockaddr_in))) == .Success else {
-            CFSocketInvalidate(socket)
-            throw SocketError(errno: errno)
+//        guard CFSocketSetAddress(socket, NSData(bytes: &address, length: sizeof(sockaddr_in))) == .Success else {
+//            CFSocketInvalidate(socket)
+//            throw SocketError(errno: errno)
+//        }
+
+        let bindResult = withUnsafePointer(&address) { ptr in
+            bind(fd, UnsafePointer<sockaddr>(ptr), socklen_t(sizeof(sockaddr_in)))
         }
+
+        guard bindResult != -1 else { throw SocketError(errno: errno) }
+        guard listen(fd, 1024) != -1 else { throw SocketError(errno: errno) }
 
         return fd
     }
@@ -161,41 +173,40 @@ public class Socket {
         fatalError("Socket is abstract and must be implemented by concrete subclasses")
     }
 
-    // NOTE: this function also automatically cancels any attached dispatch sources
-    private func invalidateSocket() {
-        if socketFD != -1 {
-            CFSocketInvalidate(socket)
-        }
-    }
-
     // MARK: - Internal API
 
 
-    func createSource(type: DispatchSource.Kind, handler: dispatch_block_t, cancelHandler: dispatch_block_t) {
-        let dispatchSource = DispatchSource(type: type, fd: socketFD, queue: queue, handler: handler)
+    func createSource(type: dispatch_source_type_t, handler: dispatch_block_t, cancel: dispatch_block_t) -> DispatchSource {
+        let dispatchSource = DispatchSource(fd: socketFD, type: type, queue: queue, handler: handler)
         dispatchRefCount += 1
 
         dispatch_source_set_cancel_handler(dispatchSource.source) { [weak self] in
-            guard let sock = self else { return }
+            guard let sock = self else {
+                print("deallocated before cancel...")
+                return
+            }
 
             sock.dispatchRefCount -= 1
             if sock.dispatchRefCount == 0 {
-                cancelHandler()
+                shutdown(sock.socketFD, SHUT_RDWR)
+
+                let nullFD = open("/dev/null", O_RDONLY)
+                dup2(nullFD, sock.socketFD)
+                close(nullFD)
+
+                close(sock.socketFD)
+
+                cancel()
             }
         }
 
-        switch type {
-        case .Reader:
-            self.readSource = dispatchSource
-        case .Writer:
-            self.writeSource = dispatchSource
-        }
+        return dispatchSource
     }
 
 
     // MARK: - Public API
 
-    func open() {
+    func attach() {
         if self.socketFD == -1 {
             dispatch_sync(queue) {
                 do {
@@ -211,20 +222,9 @@ public class Socket {
         self.status = .Open
     }
 
-    func close() {
+    func release() {
         status = .Closed
-
-//        dispatch_sync(queue) { [unowned self] in
-            self.readSource?.cancel()
-            self.writeSource?.cancel()
-//        }
-
-        invalidateSocket()
-    }
-
-    // MARK: - CustomStringConvertible
-
-    var description: String {
-        return String(self.socket)
+        readSource!.cancel()
+        writeSource!.cancel()
     }
 }

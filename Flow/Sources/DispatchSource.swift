@@ -13,32 +13,17 @@ struct DispatchSource {
         case Running, Paused, Cancelled
     }
 
-    enum Kind {
-        case Reader, Writer
-
-        var dispatchType: dispatch_source_type_t {
-            switch self {
-            case Reader:
-                return DISPATCH_SOURCE_TYPE_READ
-            case Writer:
-                return DISPATCH_SOURCE_TYPE_WRITE
-            }
-        }
-    }
-
     // MARK: - Internal Properties
 
     let source: dispatch_source_t
-    let type: Kind
     var status: Status
 
     // MARK: - Lifecycle
 
-    init(type: Kind, fd: CFSocketNativeHandle, queue: dispatch_queue_t, handler: dispatch_block_t) {
-        self.type = type
+    init(fd: CFSocketNativeHandle, type: dispatch_source_type_t, queue: dispatch_queue_t, handler: dispatch_block_t) {
         self.status = .Paused
 
-        guard let source = dispatch_source_create(type.dispatchType, UInt(fd), 0, queue) else {
+        guard let source = dispatch_source_create(type, UInt(fd), 0, queue) else {
             fatalError("couldn't create dispatch_source")
         }
 
