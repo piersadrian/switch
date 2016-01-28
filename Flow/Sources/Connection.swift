@@ -32,6 +32,7 @@ class Connection: Hashable, IOSocketDelegate {
         socket.readRequest(0.5) { data in
 //            let request = self.buildRequest(data)
             let responseData = self.handleRequest(data)
+            Log.event(self.socket.socketFD, uuid: self.socket.uuid, eventName: "about to write response")
             self.socket.writeResponse(responseData, timeout: 0.5, completion: self.finish)
 //            self.finish()
         }
@@ -44,7 +45,6 @@ class Connection: Hashable, IOSocketDelegate {
 
     // main override point for launching application logic
     func handleRequest(data: NSData) -> NSData {
-//        sleep(arc4random() % 3)
         return "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!
     }
 

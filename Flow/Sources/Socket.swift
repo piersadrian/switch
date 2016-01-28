@@ -67,73 +67,53 @@ enum SocketStatus {
 }
 
 public class Socket {
-    // MARK: - Private Properties
-
-    private var _socket: CFSocket?
-
     // MARK: - Internal Properties
 
-//    var socket: CFSocket {
-//        if let sock = _socket {
-//            return sock
-//        }
-//        else if let sock = CFSocketCreateWithNative(nil, self.socketFD, 0, nil, nil) {
-//            self._socket = sock
-//            return sock
-//        }
-//        else {
-//            fatalError("couldn't create CFSocket from file descriptor \(self.socketFD)")
-//        }
-//    }
-
     var socketFD: Int32
-    var queue: dispatch_queue_t
+    var uuid: NSUUID
     var status: SocketStatus = .Closed
 
-    var dispatchRefCount: Int = 0
+    var ioQueue: dispatch_queue_t
+    var handlerQueue: dispatch_queue_t
+
     var readSource: DispatchSource?
     var writeSource: DispatchSource?
 
+    // Used to monitor the number of independent `dispatch_source`s watching the
+    // underlying socket's file descriptor. Since each source is asynchronous and
+    // mutually independent, it's unsafe to `close` a socket until both sources
+    // have disconnected. This count should start at the number of sources that
+    // will be attached to the file descriptor and decrement each time one
+    // disconnects. Once it reaches 0, it's safe to `close` the socket. See:
+    // https://mikeash.com/pyblog/friday-qa-2009-12-11-a-gcd-case-study-building-an-http-server.html
+    var dispatchRefCount: Int = 0
+
     // MARK: - Lifecycle
 
-    init() {
+    init(handlerQueue: dispatch_queue_t) {
         self.socketFD = -1
-        self.queue = dispatch_queue_create("socketQueue", DISPATCH_QUEUE_SERIAL)
+        self.ioQueue = dispatch_queue_create("com.playfair.socket-io", DISPATCH_QUEUE_SERIAL)
+        self.handlerQueue = handlerQueue
+        self.uuid = NSUUID()
     }
 
-    convenience init(fd: CFSocketNativeHandle, queue: dispatch_queue_t? = nil) {
-        self.init()
-
+    init(fd: CFSocketNativeHandle, handlerQueue: dispatch_queue_t, ioQueue: dispatch_queue_t? = nil) {
         self.socketFD = fd
+        self.handlerQueue = handlerQueue
+        self.uuid = NSUUID()
 
-        if let queue = queue {
-            self.queue = queue
+        if let queue = ioQueue {
+            self.ioQueue = queue
         }
-    }
-
-    var deinited = false
-
-    deinit {
-//        readSource?.cancel()
-//        writeSource?.cancel()
-//        self.close()
-        self.deinited = true
+        else {
+            self.ioQueue = dispatch_queue_create("com.playfair.socket-io", DISPATCH_QUEUE_SERIAL)
+        }
     }
 
     // MARK: - Private API
 
     private func createAndBind() throws -> CFSocketNativeHandle {
         // Create socket
-
-//        guard let socket = CFSocketCreate(nil, PF_INET, SOCK_STREAM, IPPROTO_TCP, 0, nil, nil) else {
-//            throw SocketError(errno: errno)
-//        }
-//
-//        let fd = CFSocketGetNative(socket)
-//
-//        guard fd != -1 else {
-//            throw SocketError.AlreadyInvalidated
-//        }
 
         let fd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)
         guard fd != -1 else { throw SocketError(errno: errno) }
@@ -143,7 +123,7 @@ public class Socket {
 
         var sockOptionSetting = 1
         guard setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &sockOptionSetting, socklen_t(sizeof(Int))) != -1 else {
-            fatalError("couldn't set socket to reuseaddr")
+            throw SocketError(errno: errno)
         }
 
         // Bind socket to given address and listen for connections
@@ -154,15 +134,11 @@ public class Socket {
         address.sin_port = CFSwapInt16HostToBig(4242)
         address.sin_addr.s_addr = 0
 
-//        guard CFSocketSetAddress(socket, NSData(bytes: &address, length: sizeof(sockaddr_in))) == .Success else {
-//            CFSocketInvalidate(socket)
-//            throw SocketError(errno: errno)
-//        }
-
         let bindResult = withUnsafePointer(&address) { ptr in
             bind(fd, UnsafePointer<sockaddr>(ptr), socklen_t(sizeof(sockaddr_in)))
         }
 
+        // FIXME: these should throw more specific errors for each operation
         guard bindResult != -1 else { throw SocketError(errno: errno) }
         guard listen(fd, 1024) != -1 else { throw SocketError(errno: errno) }
 
@@ -175,26 +151,26 @@ public class Socket {
 
     // MARK: - Internal API
 
-
     func createSource(type: dispatch_source_type_t, handler: dispatch_block_t, cancel: dispatch_block_t) -> DispatchSource {
-        let dispatchSource = DispatchSource(fd: socketFD, type: type, queue: queue, handler: handler)
+        let dispatchSource = DispatchSource(fd: socketFD, type: type, queue: ioQueue, handler: handler)
         dispatchRefCount += 1
 
-        dispatch_source_set_cancel_handler(dispatchSource.source) { [weak self] in
-            guard let sock = self else {
-                print("deallocated before cancel...")
-                return
-            }
+        let fd = self.socketFD
+        let uuid = self.uuid
 
-            sock.dispatchRefCount -= 1
-            if sock.dispatchRefCount == 0 {
-                shutdown(sock.socketFD, SHUT_RDWR)
+        dispatch_source_set_cancel_handler(dispatchSource.source) { [unowned self] in
+            Log.event(fd, uuid: uuid, eventName: "dispatch_source cancel attempt")
+
+            self.dispatchRefCount -= 1
+            if self.dispatchRefCount == 0 {
+                Log.event(fd, uuid: uuid, eventName: "dispatch_source cancel actual")
+                shutdown(self.socketFD, SHUT_RDWR)
 
                 let nullFD = open("/dev/null", O_RDONLY)
-                dup2(nullFD, sock.socketFD)
+                dup2(nullFD, self.socketFD)
                 close(nullFD)
 
-                close(sock.socketFD)
+                close(self.socketFD)
 
                 cancel()
             }
@@ -208,7 +184,7 @@ public class Socket {
 
     func attach() {
         if self.socketFD == -1 {
-            dispatch_sync(queue) {
+            dispatch_sync(ioQueue) {
                 do {
                     self.socketFD = try self.createAndBind()
                 }
@@ -224,7 +200,10 @@ public class Socket {
 
     func release() {
         status = .Closed
-        readSource!.cancel()
-        writeSource!.cancel()
+
+        dispatch_async(ioQueue) {
+            self.readSource!.cancel()
+            self.writeSource!.cancel()
+        }
     }
 }

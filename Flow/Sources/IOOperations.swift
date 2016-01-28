@@ -85,6 +85,7 @@ class IOOperationQueue<OperationType: IOOperation> {
     // MARK: - Private Properties
 
     private var queue: [OperationType]
+    private var lock = dispatch_queue_create("com.playfair.operation-queue-lock", DISPATCH_QUEUE_SERIAL)
 
     // MARK: - Lifecycle
 
@@ -95,14 +96,18 @@ class IOOperationQueue<OperationType: IOOperation> {
     // MARK: - Internal API
 
     func peek() -> OperationType? {
-        return queue.last
+        var operation: OperationType?
+        dispatch_sync(lock) { operation = self.queue.last }
+        return operation
     }
 
     func push(operation: OperationType) {
-        queue.insert(operation, atIndex: 0)
+        dispatch_sync(lock) { self.queue.insert(operation, atIndex: 0) }
     }
 
     func pop() -> OperationType? {
-        return queue.popLast()
+        var operation: OperationType?
+        dispatch_sync(lock) { operation = self.queue.popLast() }
+        return operation
     }
 }

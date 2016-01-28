@@ -18,30 +18,26 @@ protocol ListenerSocketDelegate: class {
 class ListenerSocket: Socket {
     weak var delegate: ListenerSocketDelegate?
 
-    var totalConnectionsAccepted = 0
-
     // MARK: - Socket Overrides
 
     override func configure() {
-        let eventHandler = { [weak self] in
-            guard let sock = self else { return }
-
-            let connectionCount = Int(sock.readSource!.data())
+        let eventHandler = { [unowned self] in
+            let connectionCount = Int(self.readSource!.data())
             var acceptedConnections = 0
 
-//            print("trying to accept \(connectionCount) connections")
-
             while acceptedConnections < connectionCount {
-                let shouldAccept = sock.delegate?.shouldAcceptConnection(sock) ?? true
+                if self.delegate?.shouldAcceptConnection(self) ?? true {
+                    let childSocket = try! self.acceptConnection()
 
-                if !shouldAccept {
-//                    print("%%%% refusing connection, pool is full")
-                }
+                    if let delegate = self.delegate {
+                        delegate.didAcceptConnection(self, ioSocket: childSocket)
+                    }
+                    else {
+                        // close the socket immediately as there's no delegate to handle it
+                        childSocket.release()
+                    }
 
-                if shouldAccept && sock.acceptConnection() {
                     acceptedConnections += 1
-                    sock.totalConnectionsAccepted += 1
-//                    print("accepted \(sock.totalConnectionsAccepted) total")
                 }
             }
         }
@@ -52,8 +48,7 @@ class ListenerSocket: Socket {
 
     // MARK: - Private API
 
-    // FIXME: this should throw SocketErrors rather than return a Bool
-    private func acceptConnection() -> Bool {
+    private func acceptConnection() throws -> IOSocket {
         // Accept the incoming connection
 
         var childAddr = sockaddr()
@@ -62,7 +57,7 @@ class ListenerSocket: Socket {
         let childFD = withUnsafeMutablePointers(&childAddr, &addrLength) { accept(self.socketFD, $0, $1) }
 
         guard childFD != -1 else {
-            return false
+            throw SocketError(errno: errno)
         }
 
         // Configure the child socket
@@ -78,16 +73,7 @@ class ListenerSocket: Socket {
 
         // Create child socket wrapper
 
-        let childSocket = IOSocket(fd: childFD)
-
-        if let delegate = self.delegate {
-            delegate.didAcceptConnection(self, ioSocket: childSocket)
-        }
-        else {
-            // close the socket immediately as there's no delegate to handle it
-            childSocket.release()
-        }
-
-        return true
+        let childSocket = IOSocket(fd: childFD, handlerQueue: handlerQueue)
+        return childSocket
     }
 }
