@@ -9,10 +9,9 @@
 import Foundation
 
 protocol ListenerSocketDelegate: class {
-    func shouldAcceptConnection(socket: ListenerSocket) -> Bool
-    func didAcceptConnection(socket: ListenerSocket, ioSocket: IOSocket)
-
-//    func queueFor
+    func shouldAcceptConnectionOnSocket(socket: ListenerSocket) -> Bool
+    func didAcceptConnectionOnSocket(socket: ListenerSocket, forChildSocket ioSocket: IOSocket)
+    func socketDidClose(socket: ListenerSocket)
 }
 
 class ListenerSocket: Socket {
@@ -26,15 +25,15 @@ class ListenerSocket: Socket {
             var acceptedConnections = 0
 
             while acceptedConnections < connectionCount {
-                if self.delegate?.shouldAcceptConnection(self) ?? true {
+                if self.delegate?.shouldAcceptConnectionOnSocket(self) ?? true {
                     let childSocket = try! self.acceptConnection()
 
                     if let delegate = self.delegate {
-                        delegate.didAcceptConnection(self, ioSocket: childSocket)
+                        delegate.didAcceptConnectionOnSocket(self, forChildSocket: childSocket)
                     }
                     else {
                         // close the socket immediately as there's no delegate to handle it
-                        childSocket.release()
+                        childSocket.detach()
                     }
 
                     acceptedConnections += 1
@@ -42,7 +41,10 @@ class ListenerSocket: Socket {
             }
         }
 
-        readSource = createSource(DISPATCH_SOURCE_TYPE_READ, handler: eventHandler) {}
+        readSource = createSource(DISPATCH_SOURCE_TYPE_READ, handler: eventHandler) { [unowned self] in
+            self.delegate?.socketDidClose(self)
+        }
+
         readSource!.run()
     }
 
@@ -62,7 +64,7 @@ class ListenerSocket: Socket {
 
         // Configure the child socket
 
-        guard fcntl_setnonblock(childFD) != -1 else {
+        guard fcntl(childFD, F_SETFL, O_NONBLOCK) != -1 else {
             fatalError("couldn't set child socket file descriptor to nonblocking")
         }
 

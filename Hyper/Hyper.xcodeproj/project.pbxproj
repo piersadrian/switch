@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B73999321C5A979900A45C30 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73999311C5A979900A45C30 /* HTTPConnection.swift */; };
 		B747630E1C4196EF007B0569 /* Hyper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74763031C4196EF007B0569 /* Hyper.framework */; };
 		B747633D1C419760007B0569 /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747631F1C419760007B0569 /* Compressor.swift */; };
-		B74763451C419760007B0569 /* HTTPIOAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763281C419760007B0569 /* HTTPIOAdapter.swift */; };
 		B747634D1C419760007B0569 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763301C419760007B0569 /* Log.swift */; };
 		B747634E1C419760007B0569 /* MiddlewareStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763311C419760007B0569 /* MiddlewareStack.swift */; };
 		B74763501C419760007B0569 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763341C419760007B0569 /* Protocol.swift */; };
@@ -22,7 +22,6 @@
 		B74763A41C42EF91007B0569 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763A01C42EF91007B0569 /* Response.swift */; };
 		B74763A51C42EF91007B0569 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763A11C42EF91007B0569 /* Status.swift */; };
 		B74763C21C430EE5007B0569 /* Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = B74763C11C430ED7007B0569 /* Internal.h */; };
-		B7D84EFA1C443A56002E6966 /* HTTPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D84EF91C443A56002E6966 /* HTTPServer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,10 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B73999311C5A979900A45C30 /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
 		B74763031C4196EF007B0569 /* Hyper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B747630D1C4196EF007B0569 /* HyperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B747631F1C419760007B0569 /* Compressor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compressor.swift; sourceTree = "<group>"; };
-		B74763281C419760007B0569 /* HTTPIOAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPIOAdapter.swift; sourceTree = "<group>"; };
 		B747632A1C419760007B0569 /* Hyper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hyper.h; sourceTree = "<group>"; };
 		B747632B1C419760007B0569 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B74763301C419760007B0569 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
@@ -54,7 +53,6 @@
 		B74763A01C42EF91007B0569 /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		B74763A11C42EF91007B0569 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		B74763C11C430ED7007B0569 /* Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Internal.h; sourceTree = "<group>"; };
-		B7D84EF91C443A56002E6966 /* HTTPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPServer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,14 +98,13 @@
 			isa = PBXGroup;
 			children = (
 				B747632A1C419760007B0569 /* Hyper.h */,
-				B7D84EF91C443A56002E6966 /* HTTPServer.swift */,
 				B74763C11C430ED7007B0569 /* Internal.h */,
+				B73999311C5A979900A45C30 /* HTTPConnection.swift */,
 				B747639D1C42EF91007B0569 /* HTTP */,
 				B74763C01C430E3A007B0569 /* Middleware */,
-				B74763281C419760007B0569 /* HTTPIOAdapter.swift */,
-				B747632B1C419760007B0569 /* Info.plist */,
 				B74763301C419760007B0569 /* Log.swift */,
 				B74763381C419760007B0569 /* URI.swift */,
+				B747632B1C419760007B0569 /* Info.plist */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -251,12 +248,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7D84EFA1C443A56002E6966 /* HTTPServer.swift in Sources */,
 				B747634E1C419760007B0569 /* MiddlewareStack.swift in Sources */,
 				B74763541C419760007B0569 /* URI.swift in Sources */,
 				B74763A51C42EF91007B0569 /* Status.swift in Sources */,
 				B74763A21C42EF91007B0569 /* Headers.swift in Sources */,
-				B74763451C419760007B0569 /* HTTPIOAdapter.swift in Sources */,
+				B73999321C5A979900A45C30 /* HTTPConnection.swift in Sources */,
 				B74763A41C42EF91007B0569 /* Response.swift in Sources */,
 				B747634D1C419760007B0569 /* Log.swift in Sources */,
 				B74763501C419760007B0569 /* Protocol.swift in Sources */,

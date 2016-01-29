@@ -8,62 +8,37 @@
 
 import Foundation
 
-protocol ConnectionDelegate: class {
+public protocol ConnectionDelegate: class {
     func didCompleteConnection(connection: Connection)
 }
 
-class Connection: Hashable, IOSocketDelegate {
-    let socket: IOSocket
+public protocol Connection: class, IOSocketDelegate {
+    var delegate: ConnectionDelegate? { get set }
+    var socket: IOSocket { get }
 
-    weak var delegate: ConnectionDelegate?
+    init(socket: IOSocket)
 
-    init(socket: IOSocket) {
-        self.socket = socket
-        self.socket.delegate = self
-    }
+    func start()
+}
 
-    var didCallFinish = false
-    var didCallDelegate = false
-
-    // MARK: - Public API
-
-    func start() {
-        socket.attach()
-        socket.readRequest(0.5) { data in
-//            let request = self.buildRequest(data)
-            let responseData = self.handleRequest(data)
-            Log.event(self.socket.socketFD, uuid: self.socket.uuid, eventName: "about to write response")
-            self.socket.writeResponse(responseData, timeout: 0.5, completion: self.finish)
-//            self.finish()
-        }
-    }
-
-    func finish() {
-        didCallFinish = true
-        socket.release()
-    }
-
-    // main override point for launching application logic
-    func handleRequest(data: NSData) -> NSData {
-        return "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!
-    }
-
-    // MARK: - IOSocketDelegate
-
-    func socketDidClose(socket: IOSocket) {
-        didCallDelegate = true
-        delegate?.didCompleteConnection(self)
-    }
-
-    // MARK: - Hashable
+class WrappedConnection: Hashable {
+    // MARK: - Private Properties
 
     var hashValue: Int {
-        return Int(socket.socketFD)
+        return connection.socket.hashValue
+    }
+
+    // MARK: - Internal Properties
+
+    let connection: Connection
+
+    // MARK: - Lifecycle
+
+    init(connection: Connection) {
+        self.connection = connection
     }
 }
 
-// MARK: - Hashable
-
-func ==(lhs: Connection, rhs: Connection) -> Bool {
+func ==(lhs: WrappedConnection, rhs: WrappedConnection) -> Bool {
     return lhs.hashValue == rhs.hashValue
 }

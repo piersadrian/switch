@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol IOSocketDelegate: class {
-    func socketDidClose(socket: IOSocket)
+    func socketDidDetach(socket: IOSocket)
 }
 
 public class IOSocket: Socket {
@@ -76,7 +76,12 @@ public class IOSocket: Socket {
         }
 
         let cancelHandler: dispatch_block_t = { [unowned self] in
-            self.delegate?.socketDidClose(self)
+            if let delegate = self.delegate {
+                delegate.socketDidDetach(self)
+            }
+            else {
+                fatalError("IOSocket detached but no delegate is set! Remember to set IOSocket#delegate")
+            }
         }
 
         readSource = createSource(DISPATCH_SOURCE_TYPE_READ, handler: readEventHandler, cancel: cancelHandler)
@@ -86,12 +91,12 @@ public class IOSocket: Socket {
         writeSource!.run()
     }
 
-    override func release() {
+    public override func detach() {
         if readQueue.operationsPending {
             Log.event(socketFD, uuid: uuid, eventName: "closing socket with pending writes!!!")
         }
 
-        super.release()
+        super.detach()
     }
 
     // MARK: - Private API
@@ -102,7 +107,7 @@ public class IOSocket: Socket {
 
         guard bytes > 0 else {
             Log.event(socketFD, uuid: uuid, eventName: "closing socket due to EOF")
-            release()
+            detach()
             return
         }
 
@@ -205,12 +210,12 @@ public class IOSocket: Socket {
 
     private func triggerReadTimeout() {
         Log.event(socketFD, uuid: uuid, eventName: "read timed out, closing socket")
-        release()
+        detach()
     }
 
     private func triggerWriteTimeout() {
         Log.event(socketFD, uuid: uuid, eventName: "write timed out, closing socket")
-        release()
+        detach()
     }
 
     private func attemptToCompleteReadOperation(operation: ReadOperation) -> Bool {
@@ -238,7 +243,7 @@ public class IOSocket: Socket {
         }
         catch SocketIOError.EOF {
             Log.event(socketFD, uuid: uuid, eventName: "releasing on EOF")
-            release()
+            detach()
             return false
         }
         catch {

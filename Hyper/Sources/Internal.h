@@ -9,6 +9,6 @@
 #ifndef Internal_h
 #define Internal_h
 
-#import <Flow/Flow.h>
+//#import <Flow/Flow.h>
 
 #endif /* Internal_h */

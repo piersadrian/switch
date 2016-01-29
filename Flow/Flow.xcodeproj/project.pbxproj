@@ -12,8 +12,6 @@
 		B747638B1C42ED93007B0569 /* Flow.h in Headers */ = {isa = PBXBuildFile; fileRef = B74763861C42ED93007B0569 /* Flow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B747638F1C42EE1E007B0569 /* FlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763891C42ED93007B0569 /* FlowTests.swift */; };
 		B74763B21C42EFD7007B0569 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763A61C42EFD7007B0569 /* Buffer.swift */; };
-		B74763B31C42EFD7007B0569 /* DarwinBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = B74763A71C42EFD7007B0569 /* DarwinBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B74763B41C42EFD7007B0569 /* DarwinBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = B74763A81C42EFD7007B0569 /* DarwinBridge.m */; };
 		B74763B51C42EFD7007B0569 /* DispatchSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763A91C42EFD7007B0569 /* DispatchSource.swift */; };
 		B74763B71C42EFD7007B0569 /* IOSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763AB1C42EFD7007B0569 /* IOSocket.swift */; };
 		B74763B81C42EFD7007B0569 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763AC1C42EFD7007B0569 /* Server.swift */; };
@@ -45,8 +43,6 @@
 		B74763891C42ED93007B0569 /* FlowTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTests.swift; sourceTree = "<group>"; };
 		B747638A1C42ED93007B0569 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B74763A61C42EFD7007B0569 /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Buffer.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		B74763A71C42EFD7007B0569 /* DarwinBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DarwinBridge.h; sourceTree = "<group>"; };
-		B74763A81C42EFD7007B0569 /* DarwinBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DarwinBridge.m; sourceTree = "<group>"; };
 		B74763A91C42EFD7007B0569 /* DispatchSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchSource.swift; sourceTree = "<group>"; };
 		B74763AB1C42EFD7007B0569 /* IOSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = IOSocket.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B74763AC1C42EFD7007B0569 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
@@ -102,8 +98,6 @@
 				B74763861C42ED93007B0569 /* Flow.h */,
 				B7761C691C4C54C5003B1606 /* Socket IO */,
 				B7761C6A1C4C54D8003B1606 /* Sockets */,
-				B74763A71C42EFD7007B0569 /* DarwinBridge.h */,
-				B74763A81C42EFD7007B0569 /* DarwinBridge.m */,
 				B74763C31C431038007B0569 /* Request.swift */,
 				B74763AC1C42EFD7007B0569 /* Server.swift */,
 				B7F60DA81C4AC51100A7E844 /* Connection.swift */,
@@ -151,7 +145,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B74763B31C42EFD7007B0569 /* DarwinBridge.h in Headers */,
 				B747638B1C42ED93007B0569 /* Flow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -263,7 +256,6 @@
 				B74763BD1C42EFD7007B0569 /* SocketEventController.swift in Sources */,
 				B73999301C593D2D00A45C30 /* Log.swift in Sources */,
 				B74763B91C42EFD7007B0569 /* ListenerSocket.swift in Sources */,
-				B74763B41C42EFD7007B0569 /* DarwinBridge.m in Sources */,
 				B74763B51C42EFD7007B0569 /* DispatchSource.swift in Sources */,
 				B74763BA1C42EFD7007B0569 /* IOOperations.swift in Sources */,
 			);

@@ -8,8 +8,13 @@
 
 import Hyper
 
-// This class is the last item in the global middleware stack, and implements
-// its own private middleware stack to wrap Responders
+class HTTPServerDelegate: ServerDelegate {
+    func connectionForSocket(socket: IOSocket) -> Connection {
+        return HTTPConnection(socket: socket)
+    }
+}
 
-let server = HTTPServer()
+let serverDelegate = HTTPServerDelegate()
+let server = Server()
+server.delegate = serverDelegate
 server.start()

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import <Flow/Flow.h>
+#import <Flow/Flow.h>
 
 //! Project version number for Hyper.
 FOUNDATION_EXPORT double HyperVersionNumber;

@@ -12,16 +12,27 @@ enum ServerStatus {
     case Starting, Running, Stopping, Stopped
 }
 
+public protocol ServerDelegate: class {
+    func connectionForSocket(socket: IOSocket) -> Connection
+}
+
 public class Server: ListenerSocketDelegate, ConnectionDelegate {
     // MARK: - Internal Properties
 
     let socket: ListenerSocket
     let requestQueue: dispatch_queue_t
     let controlQueue: dispatch_queue_t
-    var requestPool = Set<Connection>(minimumCapacity: 10) // TODO: global option?
     var concurrency: Int = 1
 
     var status: ServerStatus = .Stopped
+
+    // MARK: - Private Properties
+
+    private var requestPool = Set<WrappedConnection>(minimumCapacity: 10) // TODO: global option?
+
+    // MARK: - Public Properties
+
+    public weak var delegate: ServerDelegate?
 
     // MARK: - Lifecycle
 
@@ -41,8 +52,7 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     public func start() {
         status = .Starting
 
-//        Signals.trap(.TERM, action: stop)
-//        Signals.trap(.TERM, action: stop)
+        Signals.trap(.TERM, .INT, action: stop)
 
         socket.attach()
         status = .Running
@@ -55,64 +65,63 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
 
         while !requestPool.isEmpty {}
 
-        socket.release()
         status = .Stopped
-
-        dispatch_sync(dispatch_get_main_queue()) {
-            exit(0)
-        }
+        socket.detach()
     }
 
-    // MARK: - Internal API
+    // MARK: - Private API
 
-    func addConnection(conn: Connection) {
+    private func addConnection(conn: WrappedConnection) {
         dispatch_sync(controlQueue) {
             let oldPressure = Int(Float(self.requestPool.count) / Float(self.concurrency) * 100)
             self.requestPool.insert(conn)
             let newPressure = Int(Float(self.requestPool.count) / Float(self.concurrency) * 100)
 
-            Log.event(conn.socket.socketFD, uuid: conn.socket.uuid, eventName: "connection add", oldValue: oldPressure, newValue: newPressure)
-
-            dispatch_async(self.requestQueue) {
-                conn.start()
-            }
+//            Log.event(conn.socket.socketFD, uuid: conn.socket.uuid, eventName: "connection add", oldValue: oldPressure, newValue: newPressure)
         }
     }
 
-    func removeConnection(conn: Connection) {
-        let uuid = conn.socket.uuid
-
+    private func removeConnection(conn: WrappedConnection) {
         dispatch_sync(controlQueue) {
             let oldPressure = Int(Float(self.requestPool.count) / Float(self.concurrency) * 100)
-            let removed = self.requestPool.remove(conn)
+            self.requestPool.remove(conn)
             let newPressure = Int(Float(self.requestPool.count) / Float(self.concurrency) * 100)
 
-            Log.event(conn.socket.socketFD, uuid: conn.socket.uuid, eventName: "connection remove", oldValue: oldPressure, newValue: newPressure)
+//            Log.event(conn.socket.socketFD, uuid: conn.socket.uuid, eventName: "connection remove", oldValue: oldPressure, newValue: newPressure)
         }
-    }
-
-    func createConnection(socket: IOSocket) -> Connection {
-        return Connection(socket: socket)
     }
 
     // MARK: - ListenerSocketDelegate
 
-    func shouldAcceptConnection(socket: ListenerSocket) -> Bool {
+    func shouldAcceptConnectionOnSocket(socket: ListenerSocket) -> Bool {
         return requestPool.count < concurrency
     }
 
-    func didAcceptConnection(socket: ListenerSocket, ioSocket: IOSocket) {
+    func didAcceptConnectionOnSocket(socket: ListenerSocket, forChildSocket ioSocket: IOSocket) {
         guard status == .Running else { return }
 
-        let connection = createConnection(ioSocket)
-        connection.delegate = self
+        if var connection = delegate?.connectionForSocket(ioSocket) {
+            connection.delegate = self
+            addConnection(WrappedConnection(connection: connection))
+            dispatch_async(requestQueue) {
+                ioSocket.attach()
+                connection.start()
+            }
+        }
+        else {
+            ioSocket.detach()
+        }
+    }
 
-        addConnection(connection)
+    func socketDidClose(socket: ListenerSocket) {
+        dispatch_async(dispatch_get_main_queue()) {
+            exit(0)
+        }
     }
 
     // MARK: - ConnectionDelegate
 
-    func didCompleteConnection(connection: Connection) {
-        removeConnection(connection)
+    public func didCompleteConnection(connection: Connection) {
+        removeConnection(WrappedConnection(connection: connection))
     }
 }

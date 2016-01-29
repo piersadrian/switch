@@ -66,7 +66,7 @@ enum SocketStatus {
     case Open, Closed
 }
 
-public class Socket {
+public class Socket: Hashable {
     // MARK: - Internal Properties
 
     var socketFD: Int32
@@ -151,6 +151,16 @@ public class Socket {
 
     // MARK: - Internal API
 
+    func closeSocket() {
+        shutdown(socketFD, SHUT_RDWR)
+
+        let nullFD = open("/dev/null", O_RDONLY)
+        dup2(nullFD, socketFD)
+        close(nullFD)
+
+        close(socketFD)
+    }
+
     func createSource(type: dispatch_source_type_t, handler: dispatch_block_t, cancel: dispatch_block_t) -> DispatchSource {
         let dispatchSource = DispatchSource(fd: socketFD, type: type, queue: ioQueue, handler: handler)
         dispatchRefCount += 1
@@ -164,14 +174,7 @@ public class Socket {
             self.dispatchRefCount -= 1
             if self.dispatchRefCount == 0 {
                 Log.event(fd, uuid: uuid, eventName: "dispatch_source cancel actual")
-                shutdown(self.socketFD, SHUT_RDWR)
-
-                let nullFD = open("/dev/null", O_RDONLY)
-                dup2(nullFD, self.socketFD)
-                close(nullFD)
-
-                close(self.socketFD)
-
+                self.closeSocket()
                 cancel()
             }
         }
@@ -182,7 +185,7 @@ public class Socket {
 
     // MARK: - Public API
 
-    func attach() {
+    public func attach() {
         if self.socketFD == -1 {
             dispatch_sync(ioQueue) {
                 do {
@@ -198,12 +201,27 @@ public class Socket {
         self.status = .Open
     }
 
-    func release() {
+    public func detach() {
         status = .Closed
 
         dispatch_async(ioQueue) {
-            self.readSource!.cancel()
-            self.writeSource!.cancel()
+            if self.readSource == nil && self.writeSource == nil {
+                self.closeSocket()
+            }
+            else {
+                self.readSource?.cancel()
+                self.writeSource?.cancel()
+            }
         }
     }
+
+    // MARK: - Hashable
+
+    public var hashValue: Int {
+        return uuid.hashValue
+    }
+}
+
+public func ==(lhs: Socket, rhs: Socket) -> Bool {
+    return lhs.uuid == rhs.uuid
 }

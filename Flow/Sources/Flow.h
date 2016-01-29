@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DarwinBridge.h"
 
 //! Project version number for Flow.
 FOUNDATION_EXPORT double FlowVersionNumber;
