@@ -22,7 +22,12 @@ public class HTTPConnection: Connection {
     }
 
     func handleRequest(data: NSData) {
-        let responseData = "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding)!
+        let parser = try! HTTPRequestParser(requestData: data)
+        let request = try! parser.parseRequest()
+        var response = "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n"
+        response.appendContentsOf(String(request.headers))
+
+        let responseData = response.dataUsingEncoding(NSUTF8StringEncoding)!
         socket.writeResponse(responseData, timeout: 0.5, completion: finish)
     }
 

@@ -9,8 +9,6 @@
 import Foundation
 
 public struct RequestHeaders: CustomStringConvertible {
-    public var status: HTTPStatus = .OK
-
     private var _headers: [RequestHeader : String]
 
     init() {
@@ -46,8 +44,7 @@ public struct RequestHeaders: CustomStringConvertible {
 
     public var description: String {
         var headerStrings = _headers.map { "\($0): \($1)" }
-        headerStrings.insert(String(status), atIndex: 0)
-        return headerStrings.joinWithSeparator("\r\n")
+        return headerStrings.joinWithSeparator(String(HTTPToken.CRLF))
     }
 }
 
@@ -90,7 +87,7 @@ public struct ResponseHeaders: CustomStringConvertible {
     public var description: String {
         var headerStrings = _headers.map { "\($0): \($1)" }
         headerStrings.insert(String(status), atIndex: 0)
-        return headerStrings.joinWithSeparator("\r\n")
+        return headerStrings.joinWithSeparator(String(HTTPToken.CRLF))
     }
 }
 
@@ -126,6 +123,39 @@ public enum RequestHeader: HTTPHeader {
     case Warning
 
     case Custom(String)
+
+    init(headerName: String) {
+        switch headerName {
+        case "Accept":                self = .Accept
+        case "Accept-Charset":        self = .AcceptCharset
+        case "Accept-Encoding":       self = .AcceptEncoding
+        case "Accept-Language":       self = .AcceptLanguage
+        case "Authorization":         self = .Authorization
+        case "Cache-Control":         self = .CacheControl
+        case "Connection":            self = .Connection
+        case "Cookie":                self = .Cookie
+        case "Content-Length":        self = .ContentLength
+        case "Date":                  self = .Date
+        case "Expect":                self = .Expect
+        case "From":                  self = .From
+        case "Host":                  self = .Host
+        case "If-Match":              self = .IfMatch
+        case "If-Modified-Since":     self = .IfModifiedSince
+        case "If-None-Match":         self = .IfNoneMatch
+        case "Max-Forwards":          self = .MaxForwards
+        case "Origin":                self = .Origin
+        case "Pragma":                self = .Pragma
+        case "Proxy-Authentication":  self = .ProxyAuthentication
+        case "Range":                 self = .Range
+        case "Referer":               self = .Referer
+        case "TE":                    self = .TE
+        case "User-Agent":            self = .UserAgent
+        case "Upgrade":               self = .Upgrade
+        case "Via":                   self = .Via
+        case "Warning":               self = .Warning
+        default:                      self = .Custom(headerName)
+        }
+    }
 
     // MARK: - CustomStringConvertible
 

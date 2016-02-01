@@ -24,14 +24,13 @@ enum HTTPToken: CustomStringConvertible {
     }
 }
 
-public enum HTTPVersion: Float {
-    case ZeroNine = 0.9
-    case One      = 1.0
-    case OneOne   = 1.1
+public enum HTTPVersion: String {
+    case ZeroPointNine = "0.9"
+    case OnePointZero  = "1.0"
+    case OnePointOne   = "1.1"
 
     public init?(versionString: String) {
-        let version = Float(versionString) ?? 0
-        self.init(rawValue: version)
+        self.init(rawValue: versionString)
     }
 }
 
@@ -57,11 +56,6 @@ public enum HTTPMethod {
 /////////////////////////////////////////////////////////
 
 public class Environment {
-    var request: Request?
-    var response: Response?
-
-//    public init(request: Request, response: Response) {
-//        self.request = request
-//        self.response = response
-//    }
+    var request: HTTPRequest?
+    var response: HTTPResponse?
 }

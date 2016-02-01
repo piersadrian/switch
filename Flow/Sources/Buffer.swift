@@ -6,21 +6,14 @@
 //  Copyright © 2016 Playfair, LLC. All rights reserved.
 //
 
+// TODO: refactor ReadBuffer/WriteBuffer into a single read-writable Buffer
+
 import Foundation
-
-protocol SocketBuffer {
-    typealias IOFunction
-
-    var length: Int { get }
-
-    mutating func withMutablePointer(ioFunction: IOFunction) -> Int
-    mutating func advanceCursor(by count: Int)
-}
 
 // A ReadBuffer may concatenate writes, so it needs to be writable after initialization
 // Initialize without data -> write chunk -> write chunk ... full
-struct ReadBuffer: SocketBuffer {
-    typealias IOFunction = (UnsafeMutablePointer<Void>, Int) -> Int
+struct ReadBuffer {
+    typealias IOHandler = (UnsafeMutablePointer<Void>, Int) -> Int
 
     // MARK: - Internal Properties
 
@@ -61,12 +54,12 @@ struct ReadBuffer: SocketBuffer {
 
     // MARK: - Internal API
 
-    mutating func withMutablePointer(ioFunction: IOFunction) -> Int {
+    mutating func withMutablePointer(handler: IOHandler) -> Int {
         guard remainingLength > 0 else {
             fatalError("ReadBuffer is closed")
         }
 
-        let byteCount = ioFunction(cursor, remainingLength)
+        let byteCount = handler(cursor, remainingLength)
         advanceCursor(by: byteCount)
         return byteCount
     }
@@ -88,8 +81,8 @@ struct ReadBuffer: SocketBuffer {
 
 // A WriteBuffer can't change after initialization, but its reading cursor moves
 // Initialize with data -> read chunk -> read chunk ... empty
-struct WriteBuffer: SocketBuffer {
-    typealias IOFunction = (UnsafePointer<Void>, Int) -> Int
+struct WriteBuffer {
+    typealias IOHandler = (UnsafePointer<Void>, Int) -> Int
 
     // MARK: - Internal Properties
 
@@ -128,12 +121,12 @@ struct WriteBuffer: SocketBuffer {
 
     // MARK: - Internal API
 
-    mutating func withMutablePointer(ioFunction: IOFunction) -> Int {
+    mutating func withMutablePointer(handler: IOHandler) -> Int {
         guard remainingLength > 0 else {
             fatalError("WriteBuffer is closed")
         }
 
-        let byteCount = ioFunction(cursor, remainingLength)
+        let byteCount = handler(cursor, remainingLength)
         advanceCursor(by: byteCount)
         return byteCount
     }

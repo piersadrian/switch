@@ -79,7 +79,9 @@ class IOOperationQueue<OperationType: IOOperation> {
     // MARK: - Internal Properties
 
     var operationsPending: Bool {
-        return !queue.isEmpty
+        var status = false
+        dispatch_sync(lock) { status = !self.queue.isEmpty }
+        return status
     }
 
     // MARK: - Private Properties

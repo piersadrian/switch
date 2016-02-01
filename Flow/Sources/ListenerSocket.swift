@@ -25,19 +25,17 @@ class ListenerSocket: Socket {
             var acceptedConnections = 0
 
             while acceptedConnections < connectionCount {
-                if self.delegate?.shouldAcceptConnectionOnSocket(self) ?? true {
-                    let childSocket = try! self.acceptConnection()
+                let childSocket = try! self.acceptConnection() // FIXME: error handling
 
-                    if let delegate = self.delegate {
-                        delegate.didAcceptConnectionOnSocket(self, forChildSocket: childSocket)
-                    }
-                    else {
-                        // close the socket immediately as there's no delegate to handle it
-                        childSocket.detach()
-                    }
-
-                    acceptedConnections += 1
+                if let delegate = self.delegate {
+                    delegate.didAcceptConnectionOnSocket(self, forChildSocket: childSocket)
                 }
+                else {
+                    // close the socket immediately as there's no delegate to handle it
+                    childSocket.detach()
+                }
+
+                acceptedConnections += 1
             }
         }
 
@@ -65,12 +63,12 @@ class ListenerSocket: Socket {
         // Configure the child socket
 
         guard fcntl(childFD, F_SETFL, O_NONBLOCK) != -1 else {
-            fatalError("couldn't set child socket file descriptor to nonblocking")
+            fatalError("couldn't set child socket file descriptor to nonblocking") // FIXME: don't crash
         }
 
         var sockOptionSetting: Int = 1
         guard setsockopt(childFD, SOL_SOCKET, SO_NOSIGPIPE, &sockOptionSetting, socklen_t(sizeof(Int))) != -1 else {
-            fatalError("couldn't set child socket to nosigpipe")
+            fatalError("couldn't set child socket to nosigpipe") // FIXME: don't crash
         }
 
         // Create child socket wrapper

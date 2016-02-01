@@ -15,21 +15,16 @@ public protocol IOSocketDelegate: class {
 public class IOSocket: Socket {
     // MARK: - Private Properties
 
+    private var lock = dispatch_queue_create("com.playfair.socket-lock", DISPATCH_QUEUE_SERIAL)
+
     private var readQueue = IOOperationQueue<ReadOperation>()
     private var writeQueue = IOOperationQueue<WriteOperation>()
 
     private var readableBytes: Int = 0
     private var writableBytes: Int = 0
 
-    private var readable: Bool {
-        return readableBytes > 0
-    }
-
-    private var writable: Bool {
-        return writableBytes > 0
-    }
-
-    private var lock = dispatch_queue_create("com.playfair.socket-lock", DISPATCH_QUEUE_SERIAL)
+    private var readable: Bool { return readableBytes > 0 }
+    private var writable: Bool { return writableBytes > 0 }
 
     private var _reading: Bool = false
     private var reading: Bool {
@@ -58,9 +53,16 @@ public class IOSocket: Socket {
     private var readTimerSource: dispatch_source_t?
     private var writeTimerSource: dispatch_source_t?
 
+    private var readBuffer: ReadBuffer?
+
     // MARK: - Public Properties
     
     public weak var delegate: IOSocketDelegate?
+
+    // MARK: - Public Static Properties
+
+    public static var defaultReadTimeout: NSTimeInterval  = 0.100 // ms
+    public static var defaultWriteTimeout: NSTimeInterval = 0.100 // ms
 
     // MARK: - Socket Overrides
 
@@ -93,6 +95,10 @@ public class IOSocket: Socket {
 
     public override func detach() {
         if readQueue.operationsPending {
+            Log.event(socketFD, uuid: uuid, eventName: "closing socket with pending reads!!!")
+        }
+
+        if writeQueue.operationsPending {
             Log.event(socketFD, uuid: uuid, eventName: "closing socket with pending writes!!!")
         }
 
@@ -219,23 +225,25 @@ public class IOSocket: Socket {
     }
 
     private func attemptToCompleteReadOperation(operation: ReadOperation) -> Bool {
+        // set up read timer
+        if operation.timeout > 0 {
+            readTimerSource = createTimerSource(operation.timeout) { [unowned self] in
+                self.triggerReadTimeout()
+            }
+
+            dispatch_resume(readTimerSource!)
+        }
+
+        // ensure the timer source is always cancelled and removed
+        defer {
+            if let source = readTimerSource { dispatch_source_cancel(source) }
+            readTimerSource = nil
+        }
+
         let bytesRead: Int
 
         do {
-            // set up read timer
-            if operation.timeout > 0 {
-                readTimerSource = createTimerSource(operation.timeout) { [unowned self] in
-                    self.triggerReadTimeout()
-                }
-            }
-
             bytesRead = try readData(&operation.buffer)
-
-            // cancel and clear read timer
-            if let source = readTimerSource {
-                dispatch_source_cancel(source)
-                readTimerSource = nil
-            }
         }
         catch SocketIOError.WouldBlock {
             Log.event(socketFD, uuid: uuid, eventName: "read would block")
@@ -257,25 +265,25 @@ public class IOSocket: Socket {
     }
 
     private func attemptToCompleteWriteOperation(operation: WriteOperation) -> Bool {
+        // set up write timer
+        if operation.timeout > 0 {
+            writeTimerSource = createTimerSource(operation.timeout) { [unowned self] in
+                self.triggerWriteTimeout()
+            }
+
+            dispatch_resume(writeTimerSource!)
+        }
+
+        // ensure the timer source is always cancelled and removed
+        defer {
+            if let source = writeTimerSource { dispatch_source_cancel(source) }
+            writeTimerSource = nil
+        }
+
         let bytesWritten: Int
 
-        Log.event(socketFD, uuid: uuid, eventName: "began write")
-
         do {
-            // set up write timer
-            if operation.timeout > 0 {
-                writeTimerSource = createTimerSource(operation.timeout) { [unowned self] in
-                    self.triggerWriteTimeout()
-                }
-            }
-
             bytesWritten = try writeData(&operation.buffer)
-
-            // cancel and clear write timer
-            if let source = writeTimerSource {
-                dispatch_source_cancel(source)
-                writeTimerSource = nil
-            }
         }
         catch SocketIOError.WouldBlock {
             Log.event(socketFD, uuid: uuid, eventName: "write would block")
@@ -293,10 +301,6 @@ public class IOSocket: Socket {
 
     private func readData(inout buffer: ReadBuffer) throws -> Int {
         let fd = socketFD
-        if let source = readTimerSource {
-            dispatch_resume(source)
-        }
-
         let bytesRead = buffer.withMutablePointer { ptr, length in
             return read(fd, ptr, length)
         }
@@ -310,10 +314,6 @@ public class IOSocket: Socket {
 
     private func writeData(inout buffer: WriteBuffer) throws -> Int {
         let fd = socketFD
-        if let source = writeTimerSource {
-            dispatch_resume(source)
-        }
-
         let bytesWritten = buffer.withMutablePointer { ptr, length in
             return write(fd, ptr, length)
         }
@@ -326,7 +326,7 @@ public class IOSocket: Socket {
 
     // MARK: - Public API
 
-    public func readRequest(timeout: NSTimeInterval, completion: (NSData) -> Void) {
+    public func readRequest(timeout: NSTimeInterval = defaultReadTimeout, completion: (NSData) -> Void) {
         dispatch_sync(ioQueue) { [unowned self] in
             guard self.status == .Open else {
                 fatalError("socket isn't open for IO; call #open() on IOController first")
@@ -344,7 +344,7 @@ public class IOSocket: Socket {
         }
     }
 
-    public func writeResponse(data: NSData, timeout: NSTimeInterval, completion: (Void) -> Void) {
+    public func writeResponse(data: NSData, timeout: NSTimeInterval = defaultWriteTimeout, completion: (Void) -> Void) {
         dispatch_sync(ioQueue) { [unowned self] in
             guard self.status == .Open else {
                 fatalError("socket isn't open for IO; call #open() on IOController first")

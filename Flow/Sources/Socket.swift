@@ -169,11 +169,8 @@ public class Socket: Hashable {
         let uuid = self.uuid
 
         dispatch_source_set_cancel_handler(dispatchSource.source) { [unowned self] in
-            Log.event(fd, uuid: uuid, eventName: "dispatch_source cancel attempt")
-
             self.dispatchRefCount -= 1
             if self.dispatchRefCount == 0 {
-                Log.event(fd, uuid: uuid, eventName: "dispatch_source cancel actual")
                 self.closeSocket()
                 cancel()
             }

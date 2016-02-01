@@ -20,7 +20,6 @@
 		B74763BB1C42EFD7007B0569 /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763AF1C42EFD7007B0569 /* Signals.swift */; };
 		B74763BC1C42EFD7007B0569 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763B01C42EFD7007B0569 /* Socket.swift */; };
 		B74763BD1C42EFD7007B0569 /* SocketEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763B11C42EFD7007B0569 /* SocketEventController.swift */; };
-		B74763C41C431038007B0569 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763C31C431038007B0569 /* Request.swift */; };
 		B7F60DA91C4AC51100A7E844 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F60DA81C4AC51100A7E844 /* Connection.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +50,6 @@
 		B74763AF1C42EFD7007B0569 /* Signals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signals.swift; sourceTree = "<group>"; };
 		B74763B01C42EFD7007B0569 /* Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
 		B74763B11C42EFD7007B0569 /* SocketEventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEventController.swift; sourceTree = "<group>"; };
-		B74763C31C431038007B0569 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		B7F60DA81C4AC51100A7E844 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,7 +96,6 @@
 				B74763861C42ED93007B0569 /* Flow.h */,
 				B7761C691C4C54C5003B1606 /* Socket IO */,
 				B7761C6A1C4C54D8003B1606 /* Sockets */,
-				B74763C31C431038007B0569 /* Request.swift */,
 				B74763AC1C42EFD7007B0569 /* Server.swift */,
 				B7F60DA81C4AC51100A7E844 /* Connection.swift */,
 				B739992F1C593D2D00A45C30 /* Log.swift */,
@@ -247,7 +244,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B74763B71C42EFD7007B0569 /* IOSocket.swift in Sources */,
-				B74763C41C431038007B0569 /* Request.swift in Sources */,
 				B74763B81C42EFD7007B0569 /* Server.swift in Sources */,
 				B74763BC1C42EFD7007B0569 /* Socket.swift in Sources */,
 				B74763BB1C42EFD7007B0569 /* Signals.swift in Sources */,

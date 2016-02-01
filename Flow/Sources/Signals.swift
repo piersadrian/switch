@@ -31,8 +31,10 @@ struct Signals {
             let source = dispatch_source_create(DISPATCH_SOURCE_TYPE_SIGNAL, UInt(signal.rawValue), 0, dispatch_get_global_queue(0, 0))
             dispatch_source_set_event_handler(source, action)
             dispatch_resume(source)
+
             sources.append(source)
 
+            // Thanks to Adam Sharp for this implementation (gist: https://gist.github.com/sharplet/d640eea5b6c99605ac79)
             // Disable default `sigaction` handling with SIG_IGN
             var actionContext = SignalActionContext(__sigaction_u: SignalHandler(__sa_handler: SIG_IGN), sa_mask: 0, sa_flags: 0)
             sigaction(signal.rawValue, &actionContext, nil)

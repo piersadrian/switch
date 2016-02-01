@@ -8,27 +8,26 @@
 
 import Flow
 
-public class HTTPRequest: Request {
-    public let version: HTTPVersion
+public class HTTPRequest {
+    // MARK: - Public Properties
 
+    public var version: HTTPVersion
     public var method: HTTPMethod
-    public var body: String
+    public var path: String
     public var headers: RequestHeaders
+
+    public var body: String
 
     public var originalURL: NSURL
 
-    public var response: Response = HTTPResponse()
-
-    // MARK: - Private Properties
-
-    private var length: Int = 0
-
-    public required init(data: NSData) {
-        self.version = HTTPVersion(rawValue: 1.1)!
-        self.body = ""
+    public required init() {
+        self.version = .OnePointOne
+        self.method = .Get
+        self.path = ""
         self.headers = RequestHeaders()
 
+        self.body = ""
+
         self.originalURL = NSURL()
-        self.method = .Get
     }
 }

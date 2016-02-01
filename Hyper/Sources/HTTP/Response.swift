@@ -8,17 +8,20 @@
 
 import Flow
 
-public class HTTPResponse: Response {
-    public let version: HTTPVersion
+public class HTTPResponse {
+    public let request: HTTPRequest
+
+    public var version: HTTPVersion {
+        return request.version
+    }
 
     public var status: HTTPStatus = .OK
-
     public var body: [String] = []
     public var headers = ResponseHeaders()
 
     public var data: NSData = NSData()
 
-    init(httpVersion: HTTPVersion = .OneOne) {
-        self.version = httpVersion
+    init(request: HTTPRequest) {
+        self.request = request
     }
 }

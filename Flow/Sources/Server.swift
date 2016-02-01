@@ -22,7 +22,7 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
     let socket: ListenerSocket
     let requestQueue: dispatch_queue_t
     let controlQueue: dispatch_queue_t
-    var concurrency: Int = 1
+    var concurrency: Int = 10
 
     var status: ServerStatus = .Stopped
 
