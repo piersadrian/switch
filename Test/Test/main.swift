@@ -10,7 +10,27 @@ import Hyper
 
 class HTTPServerDelegate: ServerDelegate {
     func connectionForSocket(socket: IOSocket) -> Connection {
-        return HTTPConnection(socket: socket)
+        let connection = HTTPConnection(socket: socket, middlewareStack: [
+            Compressor.compress
+        ])
+
+        return connection
+    }
+}
+
+class Compressor {
+    static func compress(connection: HTTPConnection, stack: MiddlewareStack) -> HTTPConnection {
+        if let expect = connection.request.headers[.Expect] where expect == "100-continue" {
+            connection.response.sendContinue()
+            return connection
+        }
+
+        connection.response.status = .Created
+        connection.response.headers[.Connection] = "close"
+//        connection.response.sendBodyChunk("some body chunk")
+        connection.response.finish()
+
+        return connection
     }
 }
 

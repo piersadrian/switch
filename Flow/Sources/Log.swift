@@ -8,18 +8,24 @@
 
 import Foundation
 
-struct Log {
+public struct Log {
     static let lock = dispatch_queue_create("com.playfair.logger-lock", DISPATCH_QUEUE_SERIAL)
     static var num: Int = 0
 
-    static func event(fd: Int32, uuid: NSUUID, eventName: String) {
+    public static func event(fd: Int32, uuid: NSUUID, eventName: String) {
         event(fd, uuid: uuid, eventName: eventName, oldValue: "", newValue: "")
     }
 
-    static func event(fd: Int32, uuid: NSUUID, eventName: String, oldValue: AnyObject, newValue: AnyObject) {
+    public static func event(fd: Int32, uuid: NSUUID, eventName: String, oldValue: AnyObject, newValue: AnyObject) {
         dispatch_async(lock) {
             print(num, fd, uuid.UUIDString, eventName, oldValue, newValue, separator: ",", terminator: "\n")
             num += 1
+        }
+    }
+
+    public static func printMessage(message: String) {
+        dispatch_async(lock) {
+            print(message)
         }
     }
 }

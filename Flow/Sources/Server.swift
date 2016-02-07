@@ -66,7 +66,7 @@ public class Server: ListenerSocketDelegate, ConnectionDelegate {
         while !requestPool.isEmpty {}
 
         status = .Stopped
-        socket.detach()
+        socket.detach(immediately: true)
     }
 
     // MARK: - Private API

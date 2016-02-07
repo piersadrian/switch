@@ -12,32 +12,60 @@ public class HTTPConnection: Connection {
     public let socket: IOSocket
     public weak var delegate: ConnectionDelegate?
 
-    required public init(socket: IOSocket) {
+    public var middlewareStack: MiddlewareStack
+    public var request: HTTPRequest
+    public var response: HTTPResponse
+
+    // MARK: - Lifecycle
+
+    public init(socket: IOSocket, middlewareStack: MiddlewareStack) {
+        self.middlewareStack = middlewareStack
+        self.request = HTTPRequest()
+        self.response = HTTPResponse(request: request)
+
         self.socket = socket
         self.socket.delegate = self
+
+        request.connection = self
+        response.connection = self
     }
 
-    public func start() {
-        socket.readRequest(0.5, completion: handleRequest)
-    }
+    // MARK: - Internal API
 
     func handleRequest(data: NSData) {
-        let parser = try! HTTPRequestParser(requestData: data)
-        let request = try! parser.parseRequest()
-        var response = "HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n"
-        response.appendContentsOf(String(request.headers))
+        do {
+            try request.parseFromData(data)
+        }
+        catch {
+            // respond with 400
+            closeSocket()
+        }
 
-        let responseData = response.dataUsingEncoding(NSUTF8StringEncoding)!
-        socket.writeResponse(responseData, timeout: 0.5, completion: finish)
+        middlewareStack.start(self)
     }
 
-    func finish() {
+    func closeSocket() {
         socket.detach()
+    }
+
+    // MARK: - Public API
+
+    public func start() {
+        // set status to running
+        socket.readData(completion: handleRequest)
+    }
+
+    public func finish() {
+        closeSocket()
     }
 
     // MARK: - IOSocketDelegate
 
     public func socketDidDetach(socket: IOSocket) {
+//        Log.event(socket.socketFD, uuid: socket.uuid, eventName: "socket detached; called delegate")
+
+        // FIXME: this is not realistic - connections can continue after they close their sockets
+        //      will need separate request and socket pools to make this efficient
         delegate?.didCompleteConnection(self)
     }
 }

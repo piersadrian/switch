@@ -8,12 +8,42 @@
 
 import Foundation
 
-public struct RequestHeaders: CustomStringConvertible {
-    private var _headers: [RequestHeader : String]
+enum HeaderUtils {
+    // MARK: - Public Static Properties
 
-    init() {
-        self._headers = [:]
+    public static var headerValueCharacterSet: NSCharacterSet = {
+        var charset = NSMutableCharacterSet()
+        charset.formUnionWithCharacterSet(NSCharacterSet.alphanumericCharacterSet())
+        charset.formUnionWithCharacterSet(NSCharacterSet.symbolCharacterSet())
+        charset.formUnionWithCharacterSet(NSCharacterSet.punctuationCharacterSet())
+        charset.formUnionWithCharacterSet(NSCharacterSet.whitespaceCharacterSet())
+        return charset
+    }()
+}
+
+// FIXME: should allow multiple values for headers
+public struct RequestHeaders: CustomStringConvertible {
+    // MARK: - Private Properties
+
+    private var _headers: [RequestHeader : String] = [:]
+
+    // MARK: - Public Properties
+
+    public var count: Int {
+        return _headers.count
     }
+
+    // MARK: - Private API
+
+    mutating func setHeader(header: RequestHeader, value: String) {
+        // FIXME: percent-encode headers
+        switch header {
+        default:
+            _headers[header] = value
+        }
+    }
+
+    // MARK: - Public API
 
     public subscript(header: RequestHeader) -> String? {
         get {
@@ -30,32 +60,27 @@ public struct RequestHeaders: CustomStringConvertible {
         }
     }
 
-    // MARK: - Private API
-
-    mutating func setHeader(header: RequestHeader, value: String) {
-        // FIXME: percent-encode headers
-        switch header {
-        default:
-            _headers[header] = value
-        }
-    }
-
     // MARK: - CustomStringConvertible
 
     public var description: String {
         var headerStrings = _headers.map { "\($0): \($1)" }
-        return headerStrings.joinWithSeparator(String(HTTPToken.CRLF))
+        return headerStrings.joinWithSeparator(HTTPToken.CRLF)
     }
 }
 
+// FIXME: should allow multiple values for headers
 public struct ResponseHeaders: CustomStringConvertible {
-    public var status: HTTPStatus = .OK
+    // MARK: - Private Properties
 
-    private var _headers: [ResponseHeader : String]
+    private var _headers: [ResponseHeader : String] = [:]
 
-    init() {
-        self._headers = [:]
+    // MARK: - Public Properties
+
+    public var count: Int {
+        return _headers.count
     }
+
+    // MARK: - Public API
 
     public subscript(header: ResponseHeader) -> String? {
         get {
@@ -72,9 +97,7 @@ public struct ResponseHeaders: CustomStringConvertible {
         }
     }
 
-    // MARK: - Private API
-
-    mutating func setHeader(header: ResponseHeader, value: String) {
+    public mutating func setHeader(header: ResponseHeader, value: String) {
         // FIXME: percent-encode headers
         switch header {
         default:
@@ -85,9 +108,7 @@ public struct ResponseHeaders: CustomStringConvertible {
     // MARK: - CustomStringConvertible
 
     public var description: String {
-        var headerStrings = _headers.map { "\($0): \($1)" }
-        headerStrings.insert(String(status), atIndex: 0)
-        return headerStrings.joinWithSeparator(String(HTTPToken.CRLF))
+        return _headers.map { "\($0): \($1)\(HTTPToken.CRLF)" }.joinWithSeparator("")
     }
 }
 
@@ -124,36 +145,37 @@ public enum RequestHeader: HTTPHeader {
 
     case Custom(String)
 
-    init(headerName: String) {
-        switch headerName {
-        case "Accept":                self = .Accept
-        case "Accept-Charset":        self = .AcceptCharset
-        case "Accept-Encoding":       self = .AcceptEncoding
-        case "Accept-Language":       self = .AcceptLanguage
-        case "Authorization":         self = .Authorization
-        case "Cache-Control":         self = .CacheControl
-        case "Connection":            self = .Connection
-        case "Cookie":                self = .Cookie
-        case "Content-Length":        self = .ContentLength
-        case "Date":                  self = .Date
-        case "Expect":                self = .Expect
-        case "From":                  self = .From
-        case "Host":                  self = .Host
-        case "If-Match":              self = .IfMatch
-        case "If-Modified-Since":     self = .IfModifiedSince
-        case "If-None-Match":         self = .IfNoneMatch
-        case "Max-Forwards":          self = .MaxForwards
-        case "Origin":                self = .Origin
-        case "Pragma":                self = .Pragma
-        case "Proxy-Authentication":  self = .ProxyAuthentication
-        case "Range":                 self = .Range
-        case "Referer":               self = .Referer
-        case "TE":                    self = .TE
-        case "User-Agent":            self = .UserAgent
-        case "Upgrade":               self = .Upgrade
-        case "Via":                   self = .Via
-        case "Warning":               self = .Warning
-        default:                      self = .Custom(headerName)
+    init(name: String) {
+        switch name.lowercaseString {
+        case "accept":                self = .Accept
+        case "accept-charset":        self = .AcceptCharset
+        case "accept-encoding":       self = .AcceptEncoding
+        case "accept-language":       self = .AcceptLanguage
+        case "authorization":         self = .Authorization
+        case "cache-control":         self = .CacheControl
+        case "connection":            self = .Connection
+        case "cookie":                self = .Cookie
+        case "content-length":        self = .ContentLength
+        case "date":                  self = .Date
+        case "expect":                self = .Expect
+        case "from":                  self = .From
+        case "host":                  self = .Host
+        case "if-match":              self = .IfMatch
+        case "if-modified-since":     self = .IfModifiedSince
+        case "if-none-match":         self = .IfNoneMatch
+        case "max-forwards":          self = .MaxForwards
+        case "origin":                self = .Origin
+        case "pragma":                self = .Pragma
+        case "proxy-authentication":  self = .ProxyAuthentication
+        case "range":                 self = .Range
+        case "referer":               self = .Referer
+        case "te":                    self = .TE
+        case "user-agent":            self = .UserAgent
+        case "upgrade":               self = .Upgrade
+        case "via":                   self = .Via
+        case "warning":               self = .Warning
+
+        default:                      self = .Custom(name)
         }
     }
 
@@ -236,6 +258,46 @@ public enum ResponseHeader: HTTPHeader {
     case WWWAuthenticate
 
     case Custom(String)
+
+    init(name: String) {
+        switch name.lowercaseString {
+        case "access-control-allow-origin":   self = .AccessControlAllowOrigin
+        case "accept-patch":                  self = .AcceptPatch
+        case "accept-ranges":                 self = .AcceptRanges
+        case "age":                           self = .Age
+        case "allow":                         self = .Allow
+        case "cache-control":                 self = .CacheControl
+        case "connection":                    self = .Connection
+        case "content-disposition":           self = .ContentDisposition
+        case "content-encoding":              self = .ContentEncoding
+        case "content-length":                self = .ContentLength
+        case "content-range":                 self = .ContentRange
+        case "content-type":                  self = .ContentType
+        case "date":                          self = .Date
+        case "etag":                          self = .ETag
+        case "expires":                       self = .Expires
+        case "last-modified":                 self = .LastModified
+        case "link":                          self = .Link
+        case "location":                      self = .Location
+        case "p3p":                           self = .P3P
+        case "public-key-pins":               self = .PublicKeyPins
+        case "pragma":                        self = .Pragma
+        case "retry-after":                   self = .RetryAfter
+        case "server":                        self = .Server
+        case "set-cookie":                    self = .SetCookie
+        case "strict-transport-security":     self = .StrictTransportSecurity
+        case "trailer":                       self = .Trailer
+        case "transfer-encoding":             self = .TransferEncoding
+        case "tsv":                           self = .TSV
+        case "upgrade":                       self = .Upgrade
+        case "vary":                          self = .Vary
+        case "via":                           self = .Via
+        case "warning":                       self = .Warning
+        case "www-authenticate":              self = .WWWAuthenticate
+
+        default:                              self = .Custom(name)
+        }
+    }
 
     // MARK: - CustomStringConvertible
 

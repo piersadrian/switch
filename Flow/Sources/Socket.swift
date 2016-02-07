@@ -63,14 +63,14 @@ enum SocketIOError: ErrorType {
 }
 
 enum SocketStatus {
-    case Open, Closed
+    case Open, Closing, Closed
 }
 
 public class Socket: Hashable {
     // MARK: - Internal Properties
 
-    var socketFD: Int32
-    var uuid: NSUUID
+    public var socketFD: Int32
+    public var uuid: NSUUID
     var status: SocketStatus = .Closed
 
     var ioQueue: dispatch_queue_t
@@ -183,7 +183,7 @@ public class Socket: Hashable {
     // MARK: - Public API
 
     public func attach() {
-        if self.socketFD == -1 {
+        if socketFD == -1 {
             dispatch_sync(ioQueue) {
                 do {
                     self.socketFD = try self.createAndBind()
@@ -195,19 +195,23 @@ public class Socket: Hashable {
         }
 
         configure()
-        self.status = .Open
+        status = .Open
     }
 
-    public func detach() {
-        status = .Closed
+    public func detach(immediately force: Bool = false) {
+        status = .Closing
 
-        dispatch_async(ioQueue) {
-            if self.readSource == nil && self.writeSource == nil {
-                self.closeSocket()
-            }
-            else {
-                self.readSource?.cancel()
-                self.writeSource?.cancel()
+        if force {
+            dispatch_async(ioQueue) {
+                self.status = .Closed
+
+                if var readSource = self.readSource, var writeSource = self.writeSource {
+                    readSource.cancel()
+                    writeSource.cancel()
+                }
+                else {
+                    self.closeSocket()
+                }
             }
         }
     }

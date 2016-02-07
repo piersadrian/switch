@@ -8,29 +8,25 @@
 
 import Flow
 
-enum HTTPToken: CustomStringConvertible {
-    case CRLF
-    case Separator
-    case ChunkTerminator
-
-    // MARK: - CustomStringConvertible
-
-    var description: String {
-        switch self {
-        case .CRLF:                 return "\r\n"
-        case .Separator:            return "\r\n\r\n"
-        case .ChunkTerminator:      return "0\r\n\r\n"
-        }
-    }
+enum HTTPToken {
+    static let CRLF             = "\r\n"
+    static let separator        = "\r\n\r\n"
+    static let chunkTerminator  = "0\r\n"
 }
 
-public enum HTTPVersion: String {
+public enum HTTPVersion: String, CustomStringConvertible {
     case ZeroPointNine = "0.9"
     case OnePointZero  = "1.0"
     case OnePointOne   = "1.1"
 
     public init?(versionString: String) {
         self.init(rawValue: versionString)
+    }
+
+    // MARK: - CustomStringConvertible
+
+    public var description: String {
+        return "HTTP/\(rawValue)"
     }
 }
 
@@ -50,12 +46,4 @@ public enum HTTPMethod {
         default:            return nil
         }
     }
-}
-
-
-/////////////////////////////////////////////////////////
-
-public class Environment {
-    var request: HTTPRequest?
-    var response: HTTPResponse?
 }

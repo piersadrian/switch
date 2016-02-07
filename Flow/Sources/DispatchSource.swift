@@ -66,8 +66,7 @@ struct DispatchSource {
 
     mutating func cancel() {
         guard self.status != .Cancelled else {
-            return
-//            fatalError("DispatchSource is cancelled and cannot be cancelled again")
+            fatalError("DispatchSource is cancelled and cannot be cancelled again")
         }
 
         let wasPaused = (status == .Paused)

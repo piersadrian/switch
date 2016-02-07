@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		B73999321C5A979900A45C30 /* HTTPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73999311C5A979900A45C30 /* HTTPConnection.swift */; };
-		B73999341C5C461300A45C30 /* RequestParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73999331C5C461300A45C30 /* RequestParser.swift */; };
 		B747630E1C4196EF007B0569 /* Hyper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B74763031C4196EF007B0569 /* Hyper.framework */; };
 		B747633D1C419760007B0569 /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B747631F1C419760007B0569 /* Compressor.swift */; };
 		B747634D1C419760007B0569 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763301C419760007B0569 /* Log.swift */; };
@@ -37,7 +36,6 @@
 
 /* Begin PBXFileReference section */
 		B73999311C5A979900A45C30 /* HTTPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConnection.swift; sourceTree = "<group>"; };
-		B73999331C5C461300A45C30 /* RequestParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParser.swift; sourceTree = "<group>"; };
 		B74763031C4196EF007B0569 /* Hyper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Hyper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B747630D1C4196EF007B0569 /* HyperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HyperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B747631F1C419760007B0569 /* Compressor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compressor.swift; sourceTree = "<group>"; };
@@ -123,7 +121,6 @@
 		B747639D1C42EF91007B0569 /* HTTP */ = {
 			isa = PBXGroup;
 			children = (
-				B73999331C5C461300A45C30 /* RequestParser.swift */,
 				B74763341C419760007B0569 /* Protocol.swift */,
 				B747639E1C42EF91007B0569 /* Headers.swift */,
 				B747639F1C42EF91007B0569 /* Request.swift */,
@@ -256,7 +253,6 @@
 				B74763A51C42EF91007B0569 /* Status.swift in Sources */,
 				B74763A21C42EF91007B0569 /* Headers.swift in Sources */,
 				B73999321C5A979900A45C30 /* HTTPConnection.swift in Sources */,
-				B73999341C5C461300A45C30 /* RequestParser.swift in Sources */,
 				B74763A41C42EF91007B0569 /* Response.swift in Sources */,
 				B747634D1C419760007B0569 /* Log.swift in Sources */,
 				B74763501C419760007B0569 /* Protocol.swift in Sources */,

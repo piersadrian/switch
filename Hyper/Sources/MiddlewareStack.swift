@@ -8,62 +8,35 @@
 
 import Flow
 
-protocol Middleware {
-    init(stack: MiddlewareStack)
-    func call(env: Environment)
-}
+public typealias Middleware = (connection: HTTPConnection, stack: MiddlewareStack) -> HTTPConnection
 
-protocol MiddlewareStackDelegate: class {
-    func didCompleteResponse(stack: MiddlewareStack)
-}
-
-class MiddlewareStack {
-    static var stack: [Middleware.Type] = []
-
-    var io: IOSocket
-    weak var delegate: MiddlewareStackDelegate?
+public class MiddlewareStack: ArrayLiteralConvertible {
+    public var stack: [Middleware] = []
 
     private var index: Int = 0
-    private var env: Environment
 
-    init(io: IOSocket) {
-        self.io = io
-        self.env = Environment()
-//        self.env = Environment(request: Request(), response: Response())
+    public init() {}
+    public required init(arrayLiteral elements: Middleware...) {
+        self.stack = elements
     }
 
-    func start() {
-        guard MiddlewareStack.stack.count > 0 else {
-            fatalError("the middleware stack is empty. Set with MiddlewareStack.stack = [MyMiddleware.self...]")
+    func start(connection: Connection) -> Connection {
+        guard let conn = connection as? HTTPConnection else {
+            fatalError("MiddlewareStack only operates on HTTPConnection instances")
         }
 
-//        io.open() // FIXME: will throw
-        call(env)
+        return next(conn)
     }
 
-    func finish() {
-//        io.close()
-        delegate?.didCompleteResponse(self)
-    }
+    public func next(connection: HTTPConnection) -> Connection {
+        var conn = connection
 
-    func call(env: Environment) -> Environment {
-        if index < MiddlewareStack.stack.count {
-            let middleware = MiddlewareStack.stack[index].init(stack: self)
-            index = index.advancedBy(1)
-
-            middleware.call(env)
+        if index < stack.count {
+            let middleware = stack[index]
+            index += 1
+            conn = middleware(connection: conn, stack: self)
         }
-        
-        return env
+
+        return conn
     }
-
-    // MARK: - Hashable
-
-//    var hashValue: Int {
-//        return Int(io.socket.socketFD)
-//    }
 }
-
-//func ==(lhs: MiddlewareStack, rhs: MiddlewareStack) -> Bool {
-//    return lhs.hashValue == rhs.hashValue
-//}

@@ -19,7 +19,6 @@
 		B74763BA1C42EFD7007B0569 /* IOOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763AE1C42EFD7007B0569 /* IOOperations.swift */; };
 		B74763BB1C42EFD7007B0569 /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763AF1C42EFD7007B0569 /* Signals.swift */; };
 		B74763BC1C42EFD7007B0569 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763B01C42EFD7007B0569 /* Socket.swift */; };
-		B74763BD1C42EFD7007B0569 /* SocketEventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74763B11C42EFD7007B0569 /* SocketEventController.swift */; };
 		B7F60DA91C4AC51100A7E844 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F60DA81C4AC51100A7E844 /* Connection.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,7 +48,6 @@
 		B74763AE1C42EFD7007B0569 /* IOOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = IOOperations.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		B74763AF1C42EFD7007B0569 /* Signals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signals.swift; sourceTree = "<group>"; };
 		B74763B01C42EFD7007B0569 /* Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
-		B74763B11C42EFD7007B0569 /* SocketEventController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketEventController.swift; sourceTree = "<group>"; };
 		B7F60DA81C4AC51100A7E844 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				B74763A61C42EFD7007B0569 /* Buffer.swift */,
+				B74763A91C42EFD7007B0569 /* DispatchSource.swift */,
 				B74763AE1C42EFD7007B0569 /* IOOperations.swift */,
 			);
 			name = "Socket IO";
@@ -129,8 +128,6 @@
 				B74763B01C42EFD7007B0569 /* Socket.swift */,
 				B74763AB1C42EFD7007B0569 /* IOSocket.swift */,
 				B74763AD1C42EFD7007B0569 /* ListenerSocket.swift */,
-				B74763B11C42EFD7007B0569 /* SocketEventController.swift */,
-				B74763A91C42EFD7007B0569 /* DispatchSource.swift */,
 			);
 			name = Sockets;
 			sourceTree = "<group>";
@@ -249,7 +246,6 @@
 				B74763BB1C42EFD7007B0569 /* Signals.swift in Sources */,
 				B7F60DA91C4AC51100A7E844 /* Connection.swift in Sources */,
 				B74763B21C42EFD7007B0569 /* Buffer.swift in Sources */,
-				B74763BD1C42EFD7007B0569 /* SocketEventController.swift in Sources */,
 				B73999301C593D2D00A45C30 /* Log.swift in Sources */,
 				B74763B91C42EFD7007B0569 /* ListenerSocket.swift in Sources */,
 				B74763B51C42EFD7007B0569 /* DispatchSource.swift in Sources */,

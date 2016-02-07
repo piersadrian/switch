@@ -15,43 +15,14 @@ public class ReadOperation: IOOperation {
 
     // MARK: - Internal Properties
 
-    var buffer: ReadBuffer {
-        get {
-            if let buf = _buffer {
-                return buf
-            }
-            else {
-                guard let length = bufferLength else {
-                    fatalError("bufferLength must be set in order to create a ReadBuffer lazily")
-                }
-
-                let buf = ReadBuffer(length: length)
-                self._buffer = buf
-                return buf
-            }
-        }
-
-        set {
-            self._buffer = newValue
-        }
-    }
-
-    var bufferLength: Int?
+    var buffer: Buffer
     let timeout: NSTimeInterval
     let completionHandler: CompletionHandler
 
-    // MARK: - Private Properties
-
-    private var _buffer: ReadBuffer?
-
     // MARK: - Lifecycle
 
-    init(buffer: ReadBuffer? = nil, timeout: NSTimeInterval, completionHandler: CompletionHandler) {
-        if let buffer = buffer {
-            self._buffer = buffer
-            self.bufferLength = buffer.length
-        }
-
+    init(buffer: Buffer, timeout: NSTimeInterval, completionHandler: CompletionHandler) {
+        self.buffer = buffer
         self.timeout = timeout
         self.completionHandler = completionHandler
     }
@@ -62,13 +33,13 @@ public class WriteOperation: IOOperation {
 
     // MARK: - Internal Properties
 
-    var buffer: WriteBuffer
+    var buffer: Buffer
     let timeout: NSTimeInterval
     let completionHandler: CompletionHandler
 
     // MARK: - Lifecycle
 
-    init(buffer: WriteBuffer, timeout: NSTimeInterval, completionHandler: CompletionHandler) {
+    init(buffer: Buffer, timeout: NSTimeInterval, completionHandler: CompletionHandler) {
         self.buffer = buffer
         self.timeout = timeout
         self.completionHandler = completionHandler

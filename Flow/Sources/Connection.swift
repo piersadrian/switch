@@ -16,8 +16,6 @@ public protocol Connection: class, IOSocketDelegate {
     var delegate: ConnectionDelegate? { get set }
     var socket: IOSocket { get }
 
-    init(socket: IOSocket)
-
     func start()
 }
 
